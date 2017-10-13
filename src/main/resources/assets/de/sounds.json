@@ -1,0 +1,252 @@
+{
+    "mob.lion.roar": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:bigcat/lion", "stream": true},
+            {"name": "de:bigcat/lion2", "stream": true},
+            {"name": "de:bigcat/lion3", "stream": true},
+            {"name": "de:bigcat/lion4", "stream": true},
+            {"name": "de:bigcat/lion5", "stream": true},
+            {"name": "de:bigcat/lion6", "stream": true},
+            {"name": "de:bigcat/lion7", "stream": true},
+            {"name": "de:bigcat/lion8", "stream": true},
+            {"name": "de:bigcat/lion9", "stream": true},
+            {"name": "de:bigcat/lion10", "stream": true},
+            {"name": "de:bigcat/lion11", "stream": true},
+            {"name": "de:bigcat/lion12", "stream": true}
+        ]
+    },
+        "mob.buffalo.grunt": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:buffalo/buffalo1", "stream": true},
+            {"name": "de:buffalo/buffalo2", "stream": true},
+            {"name": "de:buffalo/buffalo3", "stream": true},
+            {"name": "de:buffalo/buffalo4", "stream": true},
+            {"name": "de:buffalo/buffalo5", "stream": true},
+            {"name": "de:buffalo/buffalo6", "stream": true},
+            {"name": "de:buffalo/buffalo7", "stream": true},
+            {"name": "de:buffalo/buffalo8", "stream": true}
+        ]
+    },
+        "mob.rhino.grunt": {
+        "category": "neutral",
+        "subtitle": "mob.bigcat.lion",
+        "sounds": [ { "name": "de:preyanimal/rhino", "stream": true } ]
+    },
+    "mob.lion.hurt": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:bigcat/lion_death", "stream": true},
+            {"name": "de:bigcat/lion_death2", "stream": true}
+        ]
+    },
+    "mob.guineapig.squeal": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:guineapig/guineapignormal", "stream": true},
+            {"name": "de:guineapig/guineapignormal", "stream": true}
+        ]
+    },
+        "mob.lemur.chirp": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:primate/ringtailedlemur", "stream": true},
+            {"name": "de:primate/ringtailedlemur", "stream": true}
+        ]
+    },
+    "mob.guineapig.warningsound": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:guineapig/guineapighurt", "stream": true},
+            {"name": "de:guineapig/guineapighurt", "stream": true}
+        ]
+    },
+        "mob.cheetah.aggro": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:cheetah/cheetah1", "stream": true},
+            {"name": "de:cheetah/cheetah2", "stream": true},
+            {"name": "de:cheetah/cheetah3", "stream": true},
+            {"name": "de:cheetah/chirp", "stream": true},
+            {"name": "de:cheetah/aggro", "stream": true},
+            {"name": "de:cheetah/purr", "stream": true}
+        ]
+    },
+    "mob.lion.roar2": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:bigcat/lion2", "stream": true},
+            {"name": "de:bigcat/lion_attack", "stream": true}
+        ]
+    },
+    "mob.hyena.cackle": {
+        "category": "neutral",
+        "subtitle": "mob.bigcat.lion",
+        "sounds": [ { "name": "de:hyena/cackle", "stream": true } ]  
+    },
+        "mob.zebra.wat2": {
+        "category": "neutral",
+        "subtitle": "mob.bigcat.lion",
+        "sounds": [ { "name": "de:preyanimal/zebra2", "stream": true } ]  
+    },
+        "mob.elephant.trumpet": {
+        "category": "neutral",
+        "subtitle": "mob.bigcat.lion",
+        "sounds": [ { "name": "de:elephant/africanelephant", "stream": true } ]  
+    },
+    "mob.ratel.aggro": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:ratel/ratel1", "stream": true},
+            {"name": "de:ratel/ratel2", "stream": true},
+            {"name": "de:ratel/ratel3", "stream": true}
+        ]
+    },
+        "mob.ratel.hurt": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:ratel/ratelhurt", "stream": true}
+        ]
+    },
+        "mob.hyena.cackle2": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:hyena/hyena1", "stream": true},
+            {"name": "de:hyena/hyena2", "stream": true},
+            {"name": "de:hyena/hyena3", "stream": true},
+            {"name": "de:hyena/hyena4", "stream": true},
+            {"name": "de:hyena/hyena5", "stream": true},
+			{"name": "de:hyena/hyena6", "stream": true},
+            {"name": "de:hyena/hyena7", "stream": true},
+            {"name": "de:hyena/hyena8", "stream": true},
+            {"name": "de:hyena/hyena9", "stream": true},
+            {"name": "de:hyena/hyena10", "stream": true},
+			{"name": "de:hyena/hyena11", "stream": true},
+			{"name": "de:hyena/hyena12", "stream": true},
+            {"name": "de:hyena/hyena13", "stream": true},
+            {"name": "de:hyena/hyena14", "stream": true},
+            {"name": "de:hyena/hyena15", "stream": true},
+            {"name": "de:hyena/hyena16", "stream": true},
+            {"name": "de:hyena/hyena17", "stream": true},
+            {"name": "de:hyena/hyena18", "stream": true},
+            {"name": "de:hyena/hyena19", "stream": true},
+            {"name": "de:hyena/hyena20", "stream": true},
+            {"name": "de:hyena/hyena21", "stream": true},
+            {"name": "de:hyena/hyena22", "stream": true},
+            {"name": "de:hyena/hyena23", "stream": true},
+            {"name": "de:hyena/hyena24", "stream": true},
+			{"name": "de:hyena/hyena25", "stream": true},
+            {"name": "de:hyena/hyena26", "stream": true},
+            {"name": "de:hyena/hyena27", "stream": true},
+            {"name": "de:hyena/hyena28", "stream": true},
+            {"name": "de:hyena/hyena29", "stream": true},
+            {"name": "de:hyena/hyena30", "stream": true},
+            {"name": "de:hyena/hyena21", "stream": true},
+			{"name": "de:hyena/hyena32", "stream": true},
+            {"name": "de:hyena/hyena33", "stream": true},
+            {"name": "de:hyena/hyena34", "stream": true},
+            {"name": "de:hyena/hyena35", "stream": true},
+            {"name": "de:hyena/night", "stream": true},
+            {"name": "de:hyena/cackle", "stream": true}
+        ]
+    },
+        "mob.leopard.growl": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:leopard/leopard1", "stream": true},
+            {"name": "de:leopard/leopard2", "stream": true},
+            {"name": "de:leopard/leopard3", "stream": true},
+            {"name": "de:leopard/leopard4", "stream": true},
+            {"name": "de:leopard/leopard5", "stream": true},
+            {"name": "de:leopard/leopard6", "stream": true},
+            {"name": "de:leopard/leopard7", "stream": true},
+            {"name": "de:leopard/leopard8", "stream": true},
+            {"name": "de:leopard/leopard9", "stream": true},            
+            {"name": "de:leopard/leopard10", "stream": true},
+			{"name": "de:leopard/leopard11", "stream": true},
+            {"name": "de:leopard/leopard12", "stream": true},
+            {"name": "de:leopard/leopard13", "stream": true},
+            {"name": "de:leopard/leopard14", "stream": true},
+            {"name": "de:leopard/leopard15", "stream": true},
+            {"name": "de:leopard/leopard16", "stream": true},
+            {"name": "de:leopard/leopard17", "stream": true},
+            {"name": "de:leopard/leopard18", "stream": true},
+            {"name": "de:leopard/leopard19", "stream": true},            
+            {"name": "de:leopard/leopard20", "stream": true},           
+			{"name": "de:leopard/leopard21", "stream": true},
+            {"name": "de:leopard/leopard22", "stream": true},
+            {"name": "de:leopard/leopard23", "stream": true},
+            {"name": "de:leopard/leopard24", "stream": true},
+            {"name": "de:leopard/leopard25", "stream": true},
+            {"name": "de:leopard/leopard26", "stream": true},
+            {"name": "de:leopard/leopard27", "stream": true},
+            {"name": "de:leopard/leopard28", "stream": true},
+            {"name": "de:leopard/leopard29", "stream": true},            
+            {"name": "de:leopard/leopard30", "stream": true},           
+			{"name": "de:leopard/leopard31", "stream": true},
+            {"name": "de:leopard/leopard32", "stream": true},          
+            {"name": "de:leopard/leopard10", "stream": true}
+        ]
+    },
+        "mob.africanwilddog.bark": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:africanwilddog/rally", "stream": true},
+            {"name": "de:africanwilddog/rally", "stream": true},
+            {"name": "de:africanwilddog/rally", "stream": true}
+        ]
+    },
+            "mob.gorilla.roar": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:gorilla/gorilla1", "stream": true},
+            {"name": "de:gorilla/gorilla2", "stream": true}
+        ]
+    },
+                "mob.leopard.death": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:leopard/leopard_death1", "stream": true},
+            {"name": "de:leopard/leopard_death2", "stream": true},
+            {"name": "de:leopard/leopard_death3", "stream": true},
+            {"name": "de:leopard/leopard_death4", "stream": true}
+        ]
+    },
+                    "mob.leopard.attack": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:leopard/leopard_attack1", "stream": true}
+        ]
+    },
+            "mob.africanwilddog.bark2": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:africanwilddog/aggro1", "stream": true},
+            {"name": "de:africanwilddog/aggro2", "stream": true},
+            {"name": "de:africanwilddog/bark", "stream": true}
+        ]
+    },
+    "mob.zebra.wat": {
+        "category": "block",
+        "subtitle": "block.tin_button.click_off",
+        "sounds": [ { "name": "de:preyanimal/zebra1", "stream": true } ]
+    }
+}
