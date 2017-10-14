@@ -52,14 +52,6 @@
             {"name": "de:guineapig/guineapignormal", "stream": true}
         ]
     },
-        "mob.lemur.chirp": {
-        "category": "neutral",
-        "sounds":
-        [
-            {"name": "de:primate/ringtailedlemur", "stream": true},
-            {"name": "de:primate/ringtailedlemur", "stream": true}
-        ]
-    },
     "mob.guineapig.warningsound": {
         "category": "neutral",
         "sounds":
