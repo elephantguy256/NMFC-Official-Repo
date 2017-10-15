@@ -2,10 +2,13 @@ package com.example.examplemod.proxy;
 
 import com.example.examplemod.EntityChinchilla;
 import com.example.examplemod.EntityGuineaPig;
+import com.example.examplemod.EntityVicuna;
 import com.example.examplemod.ModelChinchilla;
 import com.example.examplemod.ModelGuineaPig;
+import com.example.examplemod.ModelVicuna;
 import com.example.examplemod.RenderChinchilla;
 import com.example.examplemod.RenderGuineaPig;
+import com.example.examplemod.RenderVicuna;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -47,6 +50,7 @@ public class ClientProxy extends CommonProxy {
     	RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
     	RenderingRegistry.registerEntityRenderingHandler(EntityChinchilla.class, new RenderChinchilla(renderManager, new ModelChinchilla(), 0.5F)); 
         RenderingRegistry.registerEntityRenderingHandler(EntityGuineaPig.class, new RenderGuineaPig(renderManager, new ModelGuineaPig(), 0.5F));  
+        RenderingRegistry.registerEntityRenderingHandler(EntityVicuna.class, new RenderVicuna(renderManager, new ModelVicuna(), 0.5F));  
         }
 }
 
