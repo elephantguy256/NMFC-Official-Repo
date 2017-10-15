@@ -1,5 +1,7 @@
 package com.example.examplemod;
 
+import com.example.examplemod.proxy.NMFC;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.registry.RegistryNamespaced;
@@ -10,6 +12,7 @@ public class SoundEvents2
 {
 	public static SoundEvent GUINEA_PIG;
 	public static SoundEvent GUINEA_PIG_HURT;
+	public static SoundEvent LEMUR;
 	
 	  public static final RegistryNamespaced<ResourceLocation, SoundEvent> REGISTRY = net.minecraftforge.registries.GameData.getWrapper(SoundEvent.class);
 	    private final ResourceLocation soundName;
@@ -32,6 +35,7 @@ public class SoundEvents2
     {
         GUINEA_PIG = registerSound("mob.guineapig.squeal");
         GUINEA_PIG_HURT = registerSound("mob.guineapig.warningsound");
+        LEMUR = registerSound("mob.lemur.chirp");
 
     }
 
@@ -43,7 +47,7 @@ public class SoundEvents2
      */
     private static SoundEvent registerSound(String soundName)
     {
-        final ResourceLocation soundID = new ResourceLocation(ExampleMod.MODID, soundName);
+        final ResourceLocation soundID = new ResourceLocation(NMFC.MODID, soundName);
         return SoundEventRegister.register(new SoundEvent(soundID).setRegistryName(soundID));
     }
 }

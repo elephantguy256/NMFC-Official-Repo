@@ -1,6 +1,9 @@
 package com.example.examplemod;
 
 import javax.annotation.Nullable;
+
+import com.dabigjoe.obsidianAPI.animation.wrapper.IEntityAnimated;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCarrot;
 import net.minecraft.block.state.IBlockState;
@@ -55,7 +58,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityChinchilla extends EntityAnimal
+public class EntityChinchilla extends EntityAnimal implements IEntityAnimated
 {
     private static final DataParameter<Integer> RABBIT_TYPE = EntityDataManager.<Integer>createKey(EntityChinchilla.class, DataSerializers.VARINT);
     private int jumpTicks;
@@ -63,6 +66,7 @@ public class EntityChinchilla extends EntityAnimal
     private boolean wasOnGround;
     private int currentMoveTypeDuration;
     private int carrotTicks;
+	private boolean calling;
 
     public EntityChinchilla(World worldIn)
     {
@@ -770,4 +774,25 @@ public class EntityChinchilla extends EntityAnimal
                 this.typeData = type;
             }
         }
+
+
+public boolean isMoving() {
+	return limbSwingAmount > 0.02F;
+}
+
+@Override
+public void onEntityUpdate() {
+	super.onEntityUpdate();
+	if(!calling && this.rand.nextFloat() < 0.01) 
+		calling = true;
+}
+
+public void setCalling(boolean calling) {
+	this.calling = calling;
+}
+
+public boolean isCalling() {
+	return calling;
+}
+
 }

@@ -3,8 +3,8 @@ package com.example.examplemod;
 import javax.annotation.Nullable;
 
 import com.dabigjoe.obsidianAPI.animation.wrapper.IEntityAnimated;
-import com.google.common.base.Predicate;
 
+import init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -17,15 +17,12 @@ import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIOcelotAttack;
-import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -53,6 +50,7 @@ public class EntityGuineaPig extends EntityTameable implements IEntityAnimated
     private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
     /** The tempt AI task for this mob, used to prevent taming while it is fleeing. */
     private EntityAITempt aiTempt;
+	private boolean calling;
 
     public EntityGuineaPig(World worldIn)
     {
@@ -63,7 +61,7 @@ public class EntityGuineaPig extends EntityTameable implements IEntityAnimated
     protected void initEntityAI()
     {
         this.aiSit = new EntityAISit(this);
-        this.aiTempt = new EntityAITempt(this, 0.6D, Items.WHEAT, false);
+        this.aiTempt = new EntityAITempt(this, 0.6D, ModItems.gpigpellets, false);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, this.aiTempt);
@@ -71,9 +69,9 @@ public class EntityGuineaPig extends EntityTameable implements IEntityAnimated
         this.tasks.addTask(7, new EntityAILeapAtTarget(this, 0.3F));
         this.tasks.addTask(8, new EntityAIOcelotAttack(this));
         this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
+        this.tasks.addTask(11, new EntityAIAvoidEntity(this, EntityPlayer.class, 10.0F, interpTargetPitch, interpTargetPitch));
         this.tasks.addTask(10, new EntityAIWanderAvoidWater(this, 0.8D, 1.0000001E-5F));
         this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, true, (Predicate)null));
     }
 
     protected void entityInit()
@@ -234,7 +232,7 @@ public class EntityGuineaPig extends EntityTameable implements IEntityAnimated
                 this.aiSit.setSitting(!this.isSitting());
             }
         }
-        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == Items.WHEAT && player.getDistanceSqToEntity(this) < 9.0D)
+        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == ModItems.gpigpellets && player.getDistanceSqToEntity(this) < 9.0D)
         {
             if (!player.capabilities.isCreativeMode)
             {
@@ -276,6 +274,16 @@ public class EntityGuineaPig extends EntityTameable implements IEntityAnimated
         }
 
         return entityocelot;
+    }
+    
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+    {
+      dropItem(ModItems.rawguineapig, 1);
+      if (isBurning()) {
+        dropItem(ModItems.rawguineapig, 1);
+      } else {
+        dropItem(ModItems.rawguineapig, 1);
+      }
     }
 
     /**
@@ -416,9 +424,23 @@ public class EntityGuineaPig extends EntityTameable implements IEntityAnimated
         return livingdata;
     }
 
-	@Override
-	public boolean isMoving() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-}
+    public boolean isMoving() {
+    	return limbSwingAmount > 0.02F;
+    }
+
+    @Override
+    public void onEntityUpdate() {
+    	super.onEntityUpdate();
+    	if(!calling && this.rand.nextFloat() < 0.01) 
+    		calling = true;
+    }
+
+    public void setCalling(boolean calling) {
+    	this.calling = calling;
+    }
+
+    public boolean isCalling() {
+    	return calling;
+    }
+
+    }

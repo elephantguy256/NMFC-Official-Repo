@@ -1,6 +1,8 @@
 package com.example.examplemod;
 
 
+import com.example.examplemod.proxy.NMFC;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -13,8 +15,8 @@ public class ModEntities {
     public static void init() {
         // mobs spawn eggs are put here, just replace Entity.class with Entity "Whatever the entity file was"
         int id = 1;
-   EntityRegistry.registerModEntity(new ResourceLocation(ExampleMod.MODID, "de1"), EntityGuineaPig.class, "Guinea Pig", id++, ExampleMod.instance, 64, 3, true, 0x996600, 0x00ff00);
-   EntityRegistry.registerModEntity(new ResourceLocation(ExampleMod.MODID, "de2"), EntityChinchilla.class, "Chinchilla", id++, ExampleMod.instance, 64, 3, true, 0x996600, 0x00ff00);
+   EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de1"), EntityGuineaPig.class, "Guinea Pig", id++, NMFC.instance, 64, 3, true, 0x996600, 0x00ff00);
+   EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de2"), EntityChinchilla.class, "Chinchilla", id++, NMFC.instance, 64, 3, true, 0x996600, 0x00ff00);
    
     }
     

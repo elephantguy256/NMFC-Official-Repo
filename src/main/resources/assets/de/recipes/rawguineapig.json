@@ -1,0 +1,22 @@
+{
+  "type": "de:rawguineapig",
+  "pattern": [
+    "AAA",
+    "ASA",
+    "AAA"
+  ],
+  "key": {
+    "S": {
+      "item": "de:rawguineapig"
+    },
+    "A": [
+      {
+        "item": "de:rawguineapig",
+      },
+    ]
+  },
+  "result": {
+    "item": "de:cookedguineapig",
+    "data": 0
+  }
+}
