@@ -2,6 +2,8 @@ package com.example.examplemod;
 
 import javax.annotation.Nullable;
 
+import com.dabigjoe.obsidianAPI.animation.wrapper.IEntityAnimated;
+
 import init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -41,7 +43,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityGuineaPig extends EntityTameable
+public class EntityGuineaPig extends EntityTameable implements IEntityAnimated
 {
 
     private static final DataParameter<Integer> OCELOT_VARIANT = EntityDataManager.<Integer>createKey(EntityGuineaPig.class, DataSerializers.VARINT);

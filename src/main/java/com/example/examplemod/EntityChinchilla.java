@@ -2,6 +2,8 @@ package com.example.examplemod;
 
 import javax.annotation.Nullable;
 
+import com.dabigjoe.obsidianAPI.animation.wrapper.IEntityAnimated;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCarrot;
 import net.minecraft.block.state.IBlockState;
@@ -56,7 +58,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityChinchilla extends EntityAnimal
+public class EntityChinchilla extends EntityAnimal implements IEntityAnimated
 {
     private static final DataParameter<Integer> RABBIT_TYPE = EntityDataManager.<Integer>createKey(EntityChinchilla.class, DataSerializers.VARINT);
     private int jumpTicks;

@@ -4,7 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+<<<<<<< HEAD
 import net.minecraft.client.renderer.GlStateManager;
+=======
+>>>>>>> 27ba2c9f56c255f7bbf77eac00ef7891ba375c2c
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
@@ -173,6 +176,7 @@ public class ModelAlpaca extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+<<<<<<< HEAD
         {
             super.render(entity, f, f1, f2, f3, f4, f5);
             setRotationAngles(f, f1, f2, f3, f4, f5, entity);
@@ -198,6 +202,15 @@ public class ModelAlpaca extends ModelBase {
             }
             }
         }
+=======
+        float scaleFactor = 0.7F;
+        GL11.glTranslatef(0F, 1.5F-1.5F*scaleFactor, 0F); 
+        GL11.glScalef(scaleFactor, scaleFactor, scaleFactor);
+        GL11.glPushMatrix();
+        GL11.glPopMatrix();
+        this.Body.render(f5);
+    }
+>>>>>>> 27ba2c9f56c255f7bbf77eac00ef7891ba375c2c
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
