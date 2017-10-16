@@ -1,6 +1,6 @@
 package com.example.examplemod.proxy;
 
-import com.dabigjoe.obsidianOverhaul.ModEntities;
+import com.example.examplemod.ModEntities;
 
 import init.ModBlocks;
 import init.ModItems;

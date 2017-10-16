@@ -186,22 +186,33 @@ public class ModelGuineaPig extends ModelBase {
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         {
-        super.render(entity, f, f1, f2, f3, f4, f5);
-        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        {
-            if (this.isChild)
+            super.render(entity, f, f1, f2, f3, f4, f5);
+            setRotationAngles(f, f1, f2, f3, f4, f5, entity);
             {
-                setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-                float f6 = 2.0F;
-                GL11.glPushMatrix();
-                GL11.glTranslatef(0.0F, 24.0F * f5, 0.0F);
-                GL11.glPopMatrix();
-                GL11.glPushMatrix();
-                GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
-                GL11.glTranslatef(0.0F, 24.0F * f5, 0.0F);
+                if (this.isChild)
                 {
-              	  
-                }
+                    float scaleFactor = 0.2F;
+                    GL11.glTranslatef(0F, 1.5F-1.5F*scaleFactor, 0F); 
+                    GL11.glScalef(scaleFactor, scaleFactor, scaleFactor);
+                    GL11.glPushMatrix();
+                    GL11.glPopMatrix();
+                    GlStateManager.pushMatrix();
+                    GlStateManager.scale(1D / modelScale[0], 1D / modelScale[1], 1D / modelScale[2]);
+                    this.FrontRightLeg1.render(f5);
+                    this.BackRightLeg1.render(f5);
+                    this.Body.render(f5);
+                    this.FrontLeftLeg1.render(f5);
+                    this.BackLeftLeg1.render(f5);
+                    GlStateManager.popMatrix();
+                    setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+            }
+            else
+            {
+                float scaleFactor = 0.6F;
+                GL11.glTranslatef(0F, 1.5F-1.5F*scaleFactor, 0F); 
+                GL11.glScalef(scaleFactor, scaleFactor, scaleFactor);
+                GL11.glPushMatrix();
+                GL11.glPopMatrix();
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(1D / modelScale[0], 1D / modelScale[1], 1D / modelScale[2]);
                 this.FrontRightLeg1.render(f5);
@@ -211,24 +222,10 @@ public class ModelGuineaPig extends ModelBase {
                 this.BackLeftLeg1.render(f5);
                 GlStateManager.popMatrix();
                 setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        GL11.glPopMatrix();
+            }
+            }
+            }
         }
-        else
-        {
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(1D / modelScale[0], 1D / modelScale[1], 1D / modelScale[2]);
-            this.FrontRightLeg1.render(f5);
-            this.BackRightLeg1.render(f5);
-            this.Body.render(f5);
-            this.FrontLeftLeg1.render(f5);
-            this.BackLeftLeg1.render(f5);
-            GlStateManager.popMatrix();
-            setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-        }
-        }
-        }
-    }
-
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
