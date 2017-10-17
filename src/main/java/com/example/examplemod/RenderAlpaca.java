@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderAlpaca extends RenderLiving<EntityAlpaca>
 {
-    private static final ResourceLocation[] LLAMA_TEXTURES = new ResourceLocation[] {new ResourceLocation("de:textures/entity/preyanimal/alpaca1.png"), new ResourceLocation("de:textures/entity/preyanimal/alpaca2.png"), new ResourceLocation("de:textures/entity/preyanimal/alpaca3.png"), new ResourceLocation("de:textures/entity/preyanimal/alpaca1.png")};
+    private static final ResourceLocation[] LLAMA_TEXTURES = new ResourceLocation[] {new ResourceLocation("de:textures/entity/preyanimal/alpaca1.png"), new ResourceLocation("de:textures/entity/preyanimal/alpaca2.png"), new ResourceLocation("de:textures/entity/preyanimal/alpaca3.png"), new ResourceLocation("de:textures/entity/preyanimal/alpaca4.png")};
 
     public RenderAlpaca(RenderManager p_i47203_1_, ModelAlpaca modelAlpaca, float f)
     {

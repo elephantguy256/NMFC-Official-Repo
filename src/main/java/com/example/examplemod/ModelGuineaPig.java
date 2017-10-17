@@ -207,13 +207,31 @@ public class ModelGuineaPig extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-    	float scaleFactor = 0.4F;
+       super.render(entity, f, f1, f2, f3, f4, f5);
+    setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+    {
+        if (this.isChild)
+        {
+            float scaleFactor = 0.2F;
+            GL11.glTranslatef(0F, 1.5F-1.5F*scaleFactor, 0F); 
+            GL11.glScalef(scaleFactor, scaleFactor, scaleFactor);
+            GL11.glPushMatrix();
+            GL11.glPopMatrix();
+            this.Body.render(f5);
+    }
+    else
+    {
+        float scaleFactor = 0.4F;
         GL11.glTranslatef(0F, 1.5F-1.5F*scaleFactor, 0F); 
         GL11.glScalef(scaleFactor, scaleFactor, scaleFactor);
         GL11.glPushMatrix();
         GL11.glPopMatrix();
         this.Body.render(f5);
     }
+    }
+    }
+
+   
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
