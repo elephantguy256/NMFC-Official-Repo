@@ -3,6 +3,7 @@ package com.example.examplemod;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,8 +19,10 @@ import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -44,6 +47,7 @@ import net.minecraft.util.math.Vec3d;
 import javax.annotation.Nullable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.pattern.BlockStateMatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.util.math.BlockPos;
@@ -62,7 +66,25 @@ import net.minecraft.world.World;
 
 public class EntityVicuna extends EntityAnimal
 {
-    public EntityVicuna(World worldIn)
+    public class AIEatGrass extends EntityAIBase {
+
+		public AIEatGrass(EntityVicuna entityVicuna) {
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public boolean shouldExecute() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+	}
+
+
+
+
+
+	public EntityVicuna(World worldIn)
     {
         super(worldIn);
         this.setSize(0.9F, 1.4F);
@@ -83,6 +105,9 @@ public class EntityVicuna extends EntityAnimal
         this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.tasks.addTask(8, new EntityVicuna.AIAvoidEntity(this, EntityPlayer.class, 8.0F, 2.2D, 2.2D));
+        this.tasks.addTask(8, new EntityVicuna.AIAvoidEntity(this, EntityWolf.class, 10.0F, 2.2D, 2.2D));
+        this.tasks.addTask(9, new EntityVicuna.AIEatGrass(this));
     }
 
     protected void applyEntityAttributes()
@@ -138,127 +163,30 @@ public class EntityVicuna extends EntityAnimal
         return this.isChild() ? this.height : 1.3F;
     }
 
-public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
-{
-    private final Predicate<Entity> canBeSeenSelector;
-    /** The entity we are attached to */
-    protected EntityCreature entity;
-    private final double farSpeed;
-    private final double nearSpeed;
-    protected T closestLivingEntity;
-    private final float avoidDistance;
-    /** The PathEntity of our entity */
-    private Path entityPathEntity;
-    /** The PathNavigate of our entity */
-    private final PathNavigate entityPathNavigate;
-    /** Class of entity this behavior seeks to avoid */
-    private final Class<T> classToAvoid;
-    private final Predicate <? super T > avoidTargetSelector;
-
-    public EntityAIAvoidEntity(EntityWolf entityIn, Class<T> classToAvoidIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn)
+    static class AIAvoidEntity<T extends Entity> extends EntityAIAvoidEntity<T>
     {
-        this(entityIn, classToAvoidIn, Predicates.alwaysTrue(), avoidDistanceIn, farSpeedIn, nearSpeedIn);
-    }
+        private final EntityVicuna vicuna;
 
-    public EntityAIAvoidEntity(EntityWolf entityIn, Class<T> classToAvoidIn, Predicate <? super T > avoidTargetSelectorIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn)
-    {
-        this.canBeSeenSelector = new Predicate<Entity>()
+        public AIAvoidEntity(EntityVicuna vicuna, Class<T> p_i46403_2_, float p_i46403_3_, double p_i46403_4_, double p_i46403_6_)
         {
-            public boolean apply(@Nullable Entity p_apply_1_)
-            {
-                return p_apply_1_.isEntityAlive() && EntityAIAvoidEntity.this.entity.getEntitySenses().canSee(p_apply_1_) && !EntityAIAvoidEntity.this.entity.isOnSameTeam(p_apply_1_);
-            }
-        };
-        this.entity = entityIn;
-        this.classToAvoid = classToAvoidIn;
-        this.avoidTargetSelector = avoidTargetSelectorIn;
-        this.avoidDistance = avoidDistanceIn;
-        this.farSpeed = farSpeedIn;
-        this.nearSpeed = nearSpeedIn;
-        this.entityPathNavigate = entityIn.getNavigator();
-        this.setMutexBits(1);
-    }
-
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
-    public boolean shouldExecute()
-    {
-        List<T> list = this.entity.world.<T>getEntitiesWithinAABB(this.classToAvoid, this.entity.getEntityBoundingBox().grow((double)this.avoidDistance, 3.0D, (double)this.avoidDistance), Predicates.and(EntitySelectors.CAN_AI_TARGET, this.canBeSeenSelector, this.avoidTargetSelector));
-
-        if (list.isEmpty())
-        {
-            return false;
-        }
-        else
-        {
-            this.closestLivingEntity = list.get(0);
-            Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, new Vec3d(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
-
-            if (vec3d == null)
-            {
-                return false;
-            }
-            else if (this.closestLivingEntity.getDistanceSq(vec3d.x, vec3d.y, vec3d.z) < this.closestLivingEntity.getDistanceSqToEntity(this.entity))
-            {
-                return false;
-            }
-            else
-            {
-                this.entityPathEntity = this.entityPathNavigate.getPathToXYZ(vec3d.x, vec3d.y, vec3d.z);
-                return this.entityPathEntity != null;
-            }
+            super(vicuna, p_i46403_2_, p_i46403_3_, p_i46403_4_, p_i46403_6_);
+            this.vicuna = vicuna;
         }
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
-    public boolean shouldContinueExecuting()
-    {
-        return !this.entityPathNavigate.noPath();
-    }
+    
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
-    public void startExecuting()
-    {
-        this.entityPathNavigate.setPath(this.entityPathEntity, this.farSpeed);
-    }
+    
 
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
-    public void resetTask()
-    {
-        this.closestLivingEntity = null;
-    }
-
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
-    public void updateTask()
-    {
-        if (this.entity.getDistanceSqToEntity(this.closestLivingEntity) < 49.0D)
-        {
-            this.entity.getNavigator().setSpeed(this.nearSpeed);
-        }
-        else
-        {
-            this.entity.getNavigator().setSpeed(this.farSpeed);
-        }
-    }
-}
 public class EntityAIPanic extends EntityAIBase
 {
-    protected final EntityCreature creature;
+    protected final EntityVicuna creature;
     protected double speed;
     protected double randPosX;
     protected double randPosY;
     protected double randPosZ;
 
-    public EntityAIPanic(EntityCreature creature, double speedIn)
+    public EntityAIPanic(EntityVicuna creature, double speedIn)
     {
         this.creature = creature;
         this.speed = speedIn;
@@ -363,7 +291,7 @@ public class EntityAIPanic extends EntityAIBase
         return blockpos1;
     }
     
-}
+
 public class EntityAIMate extends EntityAIBase
 {
     private final EntityAnimal animal;
@@ -519,7 +447,7 @@ public class EntityAIMate extends EntityAIBase
             }
         }
     }
-}
+
 public class EntityAIWander extends EntityAIBase
 {
     protected final EntityCreature entity;
@@ -614,5 +542,120 @@ public class EntityAIWander extends EntityAIBase
     {
         this.executionChance = newchance;
     }
+    public class EntityAIEatGrass extends EntityAIBase
+    {
+        private final Predicate<IBlockState> IS_TALL_GRASS = BlockStateMatcher.forBlock(Blocks.TALLGRASS).where(BlockTallGrass.TYPE, Predicates.equalTo(BlockTallGrass.EnumType.GRASS));
+        /** The entity owner of this AITask */
+        private final EntityLiving grassEaterEntity;
+        /** The world the grass eater entity is eating from */
+        private final World entityWorld;
+        /** Number of ticks since the entity started to eat grass */
+        int eatingGrassTimer;
+
+        public EntityAIEatGrass(EntityLiving grassEaterEntityIn)
+        {
+            this.grassEaterEntity = grassEaterEntityIn;
+            this.entityWorld = grassEaterEntityIn.world;
+            this.setMutexBits(7);
+        }
+
+        /**
+         * Returns whether the EntityAIBase should begin execution.
+         */
+        public boolean shouldExecute()
+        {
+            if (this.grassEaterEntity.getRNG().nextInt(this.grassEaterEntity.isChild() ? 50 : 1000) != 0)
+            {
+                return false;
+            }
+            else
+            {
+                BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
+
+                if (IS_TALL_GRASS.apply(this.entityWorld.getBlockState(blockpos)))
+                {
+                    return true;
+                }
+                else
+                {
+                    return this.entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS;
+                }
+            }
+        }
+
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
+        public void startExecuting()
+        {
+            this.eatingGrassTimer = 40;
+            this.entityWorld.setEntityState(this.grassEaterEntity, (byte)10);
+            this.grassEaterEntity.getNavigator().clearPathEntity();
+        }
+
+        /**
+         * Reset the task's internal state. Called when this task is interrupted by another one
+         */
+        public void resetTask()
+        {
+            this.eatingGrassTimer = 0;
+        }
+
+        /**
+         * Returns whether an in-progress EntityAIBase should continue executing
+         */
+        public boolean shouldContinueExecuting()
+        {
+            return this.eatingGrassTimer > 0;
+        }
+
+        /**
+         * Number of ticks since the entity started to eat grass
+         */
+        public int getEatingGrassTimer()
+        {
+            return this.eatingGrassTimer;
+        }
+
+        /**
+         * Keep ticking a continuous task that has already been started
+         */
+        public void updateTask()
+        {
+            this.eatingGrassTimer = Math.max(0, this.eatingGrassTimer - 1);
+
+            if (this.eatingGrassTimer == 4)
+            {
+                BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
+
+                if (IS_TALL_GRASS.apply(this.entityWorld.getBlockState(blockpos)))
+                {
+                    if (this.entityWorld.getGameRules().getBoolean("mobGriefing"))
+                    {
+                        this.entityWorld.destroyBlock(blockpos, false);
+                    }
+
+                    this.grassEaterEntity.eatGrassBonus();
+                }
+                else
+                {
+                    BlockPos blockpos1 = blockpos.down();
+
+                    if (this.entityWorld.getBlockState(blockpos1).getBlock() == Blocks.GRASS)
+                    {
+                        if (this.entityWorld.getGameRules().getBoolean("mobGriefing"))
+                        {
+                            this.entityWorld.playEvent(2001, blockpos1, Block.getIdFromBlock(Blocks.GRASS));
+                            this.entityWorld.setBlockState(blockpos1, Blocks.DIRT.getDefaultState(), 2);
+                        }
+
+                        this.grassEaterEntity.eatGrassBonus();
+                    }
+                }
+            }
+        }
+    }
+}
+}
 }
 }
