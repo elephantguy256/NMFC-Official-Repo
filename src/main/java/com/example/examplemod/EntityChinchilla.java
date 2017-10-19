@@ -2,311 +2,131 @@ package com.example.examplemod;
 
 import javax.annotation.Nullable;
 
+import init.ModItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCarrot;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIMoveToBlock;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIPanic;
+import net.minecraft.entity.ai.EntityAIOcelotAttack;
+import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityJumpHelper;
-import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeDesert;
 import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityChinchilla extends EntityAnimal
+public class EntityChinchilla extends EntityTameable
 {
-    private static final DataParameter<Integer> RABBIT_TYPE = EntityDataManager.<Integer>createKey(EntityChinchilla.class, DataSerializers.VARINT);
-    private int jumpTicks;
-    private int jumpDuration;
-    private boolean wasOnGround;
-    private int currentMoveTypeDuration;
-    private int carrotTicks;
+
+    private static final DataParameter<Integer> OCELOT_VARIANT = EntityDataManager.<Integer>createKey(EntityChinchilla.class, DataSerializers.VARINT);
+    private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
+    /** The tempt AI task for this mob, used to prevent taming while it is fleeing. */
+    private EntityAITempt aiTempt;
 	private boolean calling;
 
     public EntityChinchilla(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.4F, 0.5F);
-        this.jumpHelper = new EntityChinchilla.RabbitJumpHelper(this);
-        this.moveHelper = new EntityChinchilla.RabbitMoveHelper(this);
-        this.setMovementSpeed(0.0D);
+        this.setSize(0.6F, 0.7F);
     }
 
     protected void initEntityAI()
     {
+        this.aiSit = new EntityAISit(this);
+        this.aiTempt = new EntityAITempt(this, 0.6D, ModItems.gpigpellets, false);
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityChinchilla.AIPanic(this, 2.2D));
-        this.tasks.addTask(2, new EntityAIMate(this, 0.8D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Items.CARROT, false));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Items.GOLDEN_CARROT, false));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Item.getItemFromBlock(Blocks.YELLOW_FLOWER), false));
-        this.tasks.addTask(4, new EntityChinchilla.AIAvoidEntity(this, EntityPlayer.class, 8.0F, 2.2D, 2.2D));
-        this.tasks.addTask(4, new EntityChinchilla.AIAvoidEntity(this, EntityWolf.class, 10.0F, 2.2D, 2.2D));
-        this.tasks.addTask(4, new EntityChinchilla.AIAvoidEntity(this, EntityMob.class, 4.0F, 2.2D, 2.2D));
-        this.tasks.addTask(5, new EntityChinchilla.AIRaidFarm(this));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.6D));
+        this.tasks.addTask(2, this.aiSit);
+        this.tasks.addTask(3, this.aiTempt);
+        this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 5.0F));
+        this.tasks.addTask(7, new EntityAILeapAtTarget(this, 0.3F));
+        this.tasks.addTask(8, new EntityAIOcelotAttack(this));
+        this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
+        this.tasks.addTask(11, new EntityAIAvoidEntity(this, EntityPlayer.class, 10.0F, interpTargetPitch, interpTargetPitch));
+        this.tasks.addTask(10, new EntityAIWanderAvoidWater(this, 0.8D, 1.0000001E-5F));
         this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
-    }
-
-    protected float getJumpUpwardsMotion()
-    {
-        if (!this.isCollidedHorizontally && (!this.moveHelper.isUpdating() || this.moveHelper.getY() <= this.posY + 0.5D))
-        {
-            Path path = this.navigator.getPath();
-
-            if (path != null && path.getCurrentPathIndex() < path.getCurrentPathLength())
-            {
-                Vec3d vec3d = path.getPosition(this);
-
-                if (vec3d.y > this.posY + 0.5D)
-                {
-                    return 0.5F;
-                }
-            }
-
-            return this.moveHelper.getSpeed() <= 0.6D ? 0.2F : 0.3F;
-        }
-        else
-        {
-            return 0.5F;
-        }
-    }
-
-    /**
-     * Causes this entity to do an upwards motion (jumping).
-     */
-    protected void jump()
-    {
-        super.jump();
-        double d0 = this.moveHelper.getSpeed();
-
-        if (d0 > 0.0D)
-        {
-            double d1 = this.motionX * this.motionX + this.motionZ * this.motionZ;
-
-            if (d1 < 0.010000000000000002D)
-            {
-                this.moveRelative(0.0F, 0.0F, 1.0F, 0.1F);
-            }
-        }
-
-        if (!this.world.isRemote)
-        {
-            this.world.setEntityState(this, (byte)1);
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public float setJumpCompletion(float p_175521_1_)
-    {
-        return this.jumpDuration == 0 ? 0.0F : ((float)this.jumpTicks + p_175521_1_) / (float)this.jumpDuration;
-    }
-
-    public void setMovementSpeed(double newSpeed)
-    {
-        this.getNavigator().setSpeed(newSpeed);
-        this.moveHelper.setMoveTo(this.moveHelper.getX(), this.moveHelper.getY(), this.moveHelper.getZ(), newSpeed);
-    }
-
-    public void setJumping(boolean jumping)
-    {
-        super.setJumping(jumping);
-
-        if (jumping)
-        {
-            this.playSound(this.getJumpSound(), this.getSoundVolume(), ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F) * 0.8F);
-        }
-    }
-
-    public void startJumping()
-    {
-        this.setJumping(true);
-        this.jumpDuration = 10;
-        this.jumpTicks = 0;
     }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.dataManager.register(RABBIT_TYPE, Integer.valueOf(0));
+        this.dataManager.register(OCELOT_VARIANT, Integer.valueOf(0));
     }
 
     public void updateAITasks()
     {
-        if (this.currentMoveTypeDuration > 0)
+        if (this.getMoveHelper().isUpdating())
         {
-            --this.currentMoveTypeDuration;
-        }
+            double d0 = this.getMoveHelper().getSpeed();
 
-        if (this.carrotTicks > 0)
-        {
-            this.carrotTicks -= this.rand.nextInt(3);
-
-            if (this.carrotTicks < 0)
+            if (d0 == 0.6D)
             {
-                this.carrotTicks = 0;
+                this.setSneaking(true);
+                this.setSprinting(false);
             }
-        }
-
-        if (this.onGround)
-        {
-            if (!this.wasOnGround)
+            else if (d0 == 1.33D)
             {
-                this.setJumping(false);
-                this.checkLandingDelay();
+                this.setSneaking(false);
+                this.setSprinting(true);
             }
-
-            if (this.getRabbitType() == 99 && this.currentMoveTypeDuration == 0)
+            else
             {
-                EntityLivingBase entitylivingbase = this.getAttackTarget();
-
-                if (entitylivingbase != null && this.getDistanceSqToEntity(entitylivingbase) < 16.0D)
-                {
-                    this.calculateRotationYaw(entitylivingbase.posX, entitylivingbase.posZ);
-                    this.moveHelper.setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, this.moveHelper.getSpeed());
-                    this.startJumping();
-                    this.wasOnGround = true;
-                }
+                this.setSneaking(false);
+                this.setSprinting(false);
             }
-
-            EntityChinchilla.RabbitJumpHelper entityrabbit$rabbitjumphelper = (EntityChinchilla.RabbitJumpHelper)this.jumpHelper;
-
-            if (!entityrabbit$rabbitjumphelper.getIsJumping())
-            {
-                if (this.moveHelper.isUpdating() && this.currentMoveTypeDuration == 0)
-                {
-                    Path path = this.navigator.getPath();
-                    Vec3d vec3d = new Vec3d(this.moveHelper.getX(), this.moveHelper.getY(), this.moveHelper.getZ());
-
-                    if (path != null && path.getCurrentPathIndex() < path.getCurrentPathLength())
-                    {
-                        vec3d = path.getPosition(this);
-                    }
-
-                    this.calculateRotationYaw(vec3d.x, vec3d.z);
-                    this.startJumping();
-                }
-            }
-            else if (!entityrabbit$rabbitjumphelper.canJump())
-            {
-                this.enableJumpControl();
-            }
-        }
-
-        this.wasOnGround = this.onGround;
-    }
-
-    /**
-     * Attempts to create sprinting particles if the entity is sprinting and not in water.
-     */
-    public void spawnRunningParticles()
-    {
-    }
-
-    private void calculateRotationYaw(double x, double z)
-    {
-        this.rotationYaw = (float)(MathHelper.atan2(z - this.posZ, x - this.posX) * (180D / Math.PI)) - 90.0F;
-    }
-
-    private void enableJumpControl()
-    {
-        ((EntityChinchilla.RabbitJumpHelper)this.jumpHelper).setCanJump(true);
-    }
-
-    private void disableJumpControl()
-    {
-        ((EntityChinchilla.RabbitJumpHelper)this.jumpHelper).setCanJump(false);
-    }
-
-    private void updateMoveTypeDuration()
-    {
-        if (this.moveHelper.getSpeed() < 2.2D)
-        {
-            this.currentMoveTypeDuration = 10;
         }
         else
         {
-            this.currentMoveTypeDuration = 1;
+            this.setSneaking(false);
+            this.setSprinting(false);
         }
-    }
-
-    private void checkLandingDelay()
-    {
-        this.updateMoveTypeDuration();
-        this.disableJumpControl();
     }
 
     /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
+     * Determines if an entity can be despawned, used on idle far away entities
      */
-    public void onLivingUpdate()
+    protected boolean canDespawn()
     {
-        super.onLivingUpdate();
-
-        if (this.jumpTicks != this.jumpDuration)
-        {
-            ++this.jumpTicks;
-        }
-        else if (this.jumpDuration != 0)
-        {
-            this.jumpTicks = 0;
-            this.jumpDuration = 0;
-            this.setJumping(false);
-        }
+        return !this.isTamed() && this.ticksExisted > 2400;
     }
 
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
     }
 
-    public static void registerFixesRabbit(DataFixer fixer)
+    public void fall(float distance, float damageMultiplier)
+    {
+    }
+
+    public static void registerFixesOcelot(DataFixer fixer)
     {
         EntityLiving.registerFixesMob(fixer, EntityChinchilla.class);
     }
@@ -317,8 +137,7 @@ public class EntityChinchilla extends EntityAnimal
     public void writeEntityToNBT(NBTTagCompound compound)
     {
         super.writeEntityToNBT(compound);
-        compound.setInteger("RabbitType", this.getRabbitType());
-        compound.setInteger("MoreCarrotTicks", this.carrotTicks);
+        compound.setInteger("CatType", this.getTameSkin());
     }
 
     /**
@@ -327,46 +146,51 @@ public class EntityChinchilla extends EntityAnimal
     public void readEntityFromNBT(NBTTagCompound compound)
     {
         super.readEntityFromNBT(compound);
-        this.setRabbitType(compound.getInteger("RabbitType"));
-        this.carrotTicks = compound.getInteger("MoreCarrotTicks");
+        this.setTameSkin(compound.getInteger("CatType"));
     }
 
-    protected SoundEvent getJumpSound()
-    {
-        return SoundEvents.ENTITY_RABBIT_JUMP;
-    }
-
+    @Nullable
     protected SoundEvent getAmbientSound()
     {
-        return SoundEvents.ENTITY_RABBIT_AMBIENT;
+        if (this.isTamed())
+        {
+            if (this.isInLove())
+            {
+                return SoundEvents2.GUINEA_PIG;
+            }
+            else
+            {
+            	return this.rand.nextInt(4) == 0 ? SoundEvents2.GUINEA_PIG : SoundEvents2.GUINEA_PIG;
+            }
+
+        }
+        else
+        {
+            return null;
+        }
     }
 
     protected SoundEvent getHurtSound(DamageSource p_184601_1_)
     {
-        return SoundEvents.ENTITY_RABBIT_HURT;
+        return SoundEvents2.GUINEA_PIG_HURT;
     }
 
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_RABBIT_DEATH;
+        return SoundEvents2.GUINEA_PIG_HURT;
+    }
+
+    /**
+     * Returns the volume for the sounds this mob makes.
+     */
+    protected float getSoundVolume()
+    {
+        return 0.4F;
     }
 
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        if (this.getRabbitType() == 99)
-        {
-            this.playSound(SoundEvents.ENTITY_RABBIT_ATTACK, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 8.0F);
-        }
-        else
-        {
-            return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
-        }
-    }
-
-    public SoundCategory getSoundCategory()
-    {
-        return this.getRabbitType() == 99 ? SoundCategory.HOSTILE : SoundCategory.NEUTRAL;
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
     }
 
     /**
@@ -374,39 +198,90 @@ public class EntityChinchilla extends EntityAnimal
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        return this.isEntityInvulnerable(source) ? false : super.attackEntityFrom(source, amount);
+        if (this.isEntityInvulnerable(source))
+        {
+            return false;
+        }
+        else
+        {
+            if (this.aiSit != null)
+            {
+                this.aiSit.setSitting(false);
+            }
+
+            return super.attackEntityFrom(source, amount);
+        }
     }
 
     @Nullable
     protected ResourceLocation getLootTable()
     {
-        return LootTableList.ENTITIES_RABBIT;
+        return LootTableList.ENTITIES_OCELOT;
     }
 
-    private boolean isRabbitBreedingItem(Item itemIn)
+    public boolean processInteract(EntityPlayer player, EnumHand hand)
     {
-        return itemIn == Items.CARROT || itemIn == Items.GOLDEN_CARROT || itemIn == Item.getItemFromBlock(Blocks.YELLOW_FLOWER);
+        ItemStack itemstack = player.getHeldItem(hand);
+
+        if (this.isTamed())
+        {
+            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack))
+            {
+                this.aiSit.setSitting(!this.isSitting());
+            }
+        }
+        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == ModItems.gpigpellets && player.getDistanceSqToEntity(this) < 9.0D)
+        {
+            if (!player.capabilities.isCreativeMode)
+            {
+                itemstack.shrink(1);
+            }
+
+            if (!this.world.isRemote)
+            {
+                if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player))
+                {
+                    this.setTamedBy(player);
+                    this.setTameSkin(1 + this.world.rand.nextInt(8));
+                    this.playTameEffect(true);
+                    this.aiSit.setSitting(true);
+                    this.world.setEntityState(this, (byte)7);
+                }
+                else
+                {
+                    this.playTameEffect(false);
+                    this.world.setEntityState(this, (byte)6);
+                }
+            }
+
+            return true;
+        }
+
+        return super.processInteract(player, hand);
     }
 
     public EntityChinchilla createChild(EntityAgeable ageable)
     {
-        EntityChinchilla entityrabbit = new EntityChinchilla(this.world);
-        int i = this.getRandomRabbitType();
+        EntityChinchilla entityocelot = new EntityChinchilla(this.world);
 
-        if (this.rand.nextInt(20) != 0)
+        if (this.isTamed())
         {
-            if (ageable instanceof EntityChinchilla && this.rand.nextBoolean())
-            {
-                i = ((EntityChinchilla)ageable).getRabbitType();
-            }
-            else
-            {
-                i = this.getRabbitType();
-            }
+            entityocelot.setOwnerId(this.getOwnerId());
+            entityocelot.setTamed(true);
+            entityocelot.setTameSkin(this.getTameSkin());
         }
 
-        entityrabbit.setRabbitType(i);
-        return entityrabbit;
+        return entityocelot;
+    }
+    
+    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
+    {
+      dropItem(ModItems.rawguineapig, 1);
+      if (isBurning()) {
+        dropItem(ModItems.rawguineapig, 1);
+      } else {
+        dropItem(ModItems.rawguineapig, 1);
+      }
     }
 
     /**
@@ -415,31 +290,113 @@ public class EntityChinchilla extends EntityAnimal
      */
     public boolean isBreedingItem(ItemStack stack)
     {
-        return this.isRabbitBreedingItem(stack.getItem());
+        return stack.getItem() == Items.WHEAT;
     }
 
-    public int getRabbitType()
+    /**
+     * Returns true if the mob is currently able to mate with the specified mob.
+     */
+    public boolean canMateWith(EntityAnimal otherAnimal)
     {
-        return ((Integer)this.dataManager.get(RABBIT_TYPE)).intValue();
-    }
-
-    public void setRabbitType(int rabbitTypeId)
-    {
-        if (rabbitTypeId == 99)
+        if (otherAnimal == this)
         {
-            this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(8.0D);
-            this.tasks.addTask(4, new EntityChinchilla.AIEvilAttack(this));
-            this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-            this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityWolf.class, true));
+            return false;
+        }
+        else if (!this.isTamed())
+        {
+            return false;
+        }
+        else if (!(otherAnimal instanceof EntityChinchilla))
+        {
+            return false;
+        }
+        else
+        {
+            EntityChinchilla entityocelot = (EntityChinchilla)otherAnimal;
 
-            if (!this.hasCustomName())
+            if (!entityocelot.isTamed())
             {
-                this.setCustomNameTag(I18n.translateToLocal("entity.KillerBunny.name"));
+                return false;
+            }
+            else
+            {
+                return this.isInLove() && entityocelot.isInLove();
+            }
+        }
+    }
+
+    public int getTameSkin()
+    {
+        return ((Integer)this.dataManager.get(OCELOT_VARIANT)).intValue();
+    }
+
+    public void setTameSkin(int skinId)
+    {
+        this.dataManager.set(OCELOT_VARIANT, Integer.valueOf(skinId));
+    }
+
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
+    public boolean getCanSpawnHere()
+    {
+        return this.world.rand.nextInt(4) != 0;
+    }
+
+    /**
+     * Checks that the entity is not colliding with any blocks / liquids
+     */
+    public boolean isNotColliding()
+    {
+        if (this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox()))
+        {
+            BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+
+            if (blockpos.getY() < this.world.getSeaLevel())
+            {
+                return false;
+            }
+
+            IBlockState iblockstate = this.world.getBlockState(blockpos.down());
+            Block block = iblockstate.getBlock();
+
+            if (block == Blocks.GRASS || block.isLeaves(iblockstate, this.world, blockpos.down()))
+            {
+                return true;
             }
         }
 
-        this.dataManager.set(RABBIT_TYPE, Integer.valueOf(rabbitTypeId));
+        return false;
+    }
+
+    /**
+     * Get the name of this object. For players this returns their username
+     */
+    public String getName()
+    {
+        if (this.hasCustomName())
+        {
+            return this.getCustomNameTag();
+        }
+        else
+        {
+            return this.isTamed() ? I18n.translateToLocal("entity.Chinchilla.name") : super.getName();
+        }
+    }
+
+    protected void setupTamedAI()
+    {
+        if (this.avoidEntity == null)
+        {
+            this.avoidEntity = new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
+        }
+
+        this.tasks.removeTask(this.avoidEntity);
+
+        if (!this.isTamed())
+        {
+            this.tasks.addTask(4, this.avoidEntity);
+        }
     }
 
     /**
@@ -450,347 +407,38 @@ public class EntityChinchilla extends EntityAnimal
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        int i = this.getRandomRabbitType();
-        boolean flag = false;
 
-        if (livingdata instanceof EntityChinchilla.RabbitTypeData)
+        if (this.getTameSkin() == 0 && this.world.rand.nextInt(4) == 0)
         {
-            i = ((EntityChinchilla.RabbitTypeData)livingdata).typeData;
-            flag = true;
-        }
-        else
-        {
-            livingdata = new EntityChinchilla.RabbitTypeData(i);
-        }
-
-        this.setRabbitType(i);
-
-        if (flag)
-        {
-            this.setGrowingAge(-24000);
+            for (int i = 0; i < 2; ++i)
+            {
+                EntityChinchilla entityocelot = new EntityChinchilla(this.world);
+                entityocelot.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityocelot.setGrowingAge(-24000);
+                this.world.spawnEntity(entityocelot);
+            }
         }
 
         return livingdata;
     }
 
-    private int getRandomRabbitType()
-    {
-        Biome biome = this.world.getBiome(new BlockPos(this));
-        int i = this.rand.nextInt(100);
-
-        if (biome.isSnowyBiome())
-        {
-            return i < 80 ? 1 : 3;
-        }
-        else if (biome instanceof BiomeDesert)
-        {
-            return 4;
-        }
-        else
-        {
-            return i < 50 ? 0 : (i < 90 ? 5 : 2);
-        }
+    public boolean isMoving() {
+    	return limbSwingAmount > 0.02F;
     }
 
-    /**
-     * Returns true if {@link net.minecraft.entity.passive.EntityRabbit#carrotTicks carrotTicks} has reached zero
-     */
-    private boolean isCarrotEaten()
-    {
-        return this.carrotTicks == 0;
+    @Override
+    public void onEntityUpdate() {
+    	super.onEntityUpdate();
+    	if(!calling && this.rand.nextFloat() < 0.01) 
+    		calling = true;
     }
 
-    protected void createEatingParticles()
-    {
-        BlockCarrot blockcarrot = (BlockCarrot)Blocks.CARROTS;
-        IBlockState iblockstate = blockcarrot.withAge(blockcarrot.getMaxAge());
-        this.world.spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D, Block.getStateId(iblockstate));
-        this.carrotTicks = 40;
+    public void setCalling(boolean calling) {
+    	this.calling = calling;
     }
 
-    /**
-     * Handler for {@link World#setEntityState}
-     */
-    @SideOnly(Side.CLIENT)
-    public void handleStatusUpdate(byte id)
-    {
-        if (id == 1)
-        {
-            this.createRunningParticles();
-            this.jumpDuration = 10;
-            this.jumpTicks = 0;
-        }
-        else
-        {
-            super.handleStatusUpdate(id);
-        }
+    public boolean isCalling() {
+    	return calling;
     }
 
-    static class AIAvoidEntity<T extends Entity> extends EntityAIAvoidEntity<T>
-        {
-            private final EntityChinchilla rabbit;
-
-            public AIAvoidEntity(EntityChinchilla rabbit, Class<T> p_i46403_2_, float p_i46403_3_, double p_i46403_4_, double p_i46403_6_)
-            {
-                super(rabbit, p_i46403_2_, p_i46403_3_, p_i46403_4_, p_i46403_6_);
-                this.rabbit = rabbit;
-            }
-
-            /**
-             * Returns whether the EntityAIBase should begin execution.
-             */
-            public boolean shouldExecute()
-            {
-                return this.rabbit.getRabbitType() != 99 && super.shouldExecute();
-            }
-        }
-
-    static class AIEvilAttack extends EntityAIAttackMelee
-        {
-            public AIEvilAttack(EntityChinchilla rabbit)
-            {
-                super(rabbit, 1.4D, true);
-            }
-
-            protected double getAttackReachSqr(EntityLivingBase attackTarget)
-            {
-                return (double)(4.0F + attackTarget.width);
-            }
-        }
-
-    static class AIPanic extends EntityAIPanic
-        {
-            private final EntityChinchilla rabbit;
-
-            public AIPanic(EntityChinchilla rabbit, double speedIn)
-            {
-                super(rabbit, speedIn);
-                this.rabbit = rabbit;
-            }
-
-            /**
-             * Keep ticking a continuous task that has already been started
-             */
-            public void updateTask()
-            {
-                super.updateTask();
-                this.rabbit.setMovementSpeed(this.speed);
-            }
-        }
-
-    static class AIRaidFarm extends EntityAIMoveToBlock
-        {
-            private final EntityChinchilla rabbit;
-            private boolean wantsToRaid;
-            private boolean canRaid;
-
-            public AIRaidFarm(EntityChinchilla rabbitIn)
-            {
-                super(rabbitIn, 0.699999988079071D, 16);
-                this.rabbit = rabbitIn;
-            }
-
-            /**
-             * Returns whether the EntityAIBase should begin execution.
-             */
-            public boolean shouldExecute()
-            {
-                if (this.runDelay <= 0)
-                {
-                    if (!this.rabbit.world.getGameRules().getBoolean("mobGriefing"))
-                    {
-                        return false;
-                    }
-
-                    this.canRaid = false;
-                    this.wantsToRaid = this.rabbit.isCarrotEaten();
-                    this.wantsToRaid = true;
-                }
-
-                return super.shouldExecute();
-            }
-
-            /**
-             * Returns whether an in-progress EntityAIBase should continue executing
-             */
-            public boolean shouldContinueExecuting()
-            {
-                return this.canRaid && super.shouldContinueExecuting();
-            }
-
-            /**
-             * Keep ticking a continuous task that has already been started
-             */
-            public void updateTask()
-            {
-                super.updateTask();
-                this.rabbit.getLookHelper().setLookPosition((double)this.destinationBlock.getX() + 0.5D, (double)(this.destinationBlock.getY() + 1), (double)this.destinationBlock.getZ() + 0.5D, 10.0F, (float)this.rabbit.getVerticalFaceSpeed());
-
-                if (this.getIsAboveDestination())
-                {
-                    World world = this.rabbit.world;
-                    BlockPos blockpos = this.destinationBlock.up();
-                    IBlockState iblockstate = world.getBlockState(blockpos);
-                    Block block = iblockstate.getBlock();
-
-                    if (this.canRaid && block instanceof BlockCarrot)
-                    {
-                        Integer integer = (Integer)iblockstate.getValue(BlockCarrot.AGE);
-
-                        if (integer.intValue() == 0)
-                        {
-                            world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 2);
-                            world.destroyBlock(blockpos, true);
-                        }
-                        else
-                        {
-                            world.setBlockState(blockpos, iblockstate.withProperty(BlockCarrot.AGE, Integer.valueOf(integer.intValue() - 1)), 2);
-                            world.playEvent(2001, blockpos, Block.getStateId(iblockstate));
-                        }
-
-                        this.rabbit.createEatingParticles();
-                    }
-
-                    this.canRaid = false;
-                    this.runDelay = 10;
-                }
-            }
-
-            /**
-             * Return true to set given position as destination
-             */
-            protected boolean shouldMoveTo(World worldIn, BlockPos pos)
-            {
-                Block block = worldIn.getBlockState(pos).getBlock();
-
-                if (block == Blocks.FARMLAND && this.wantsToRaid && !this.canRaid)
-                {
-                    pos = pos.up();
-                    IBlockState iblockstate = worldIn.getBlockState(pos);
-                    block = iblockstate.getBlock();
-
-                    if (block instanceof BlockCarrot && ((BlockCarrot)block).isMaxAge(iblockstate))
-                    {
-                        this.canRaid = true;
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-
-    public class RabbitJumpHelper extends EntityJumpHelper
-    {
-        private final EntityChinchilla rabbit;
-        private boolean canJump;
-
-        public RabbitJumpHelper(EntityChinchilla rabbit)
-        {
-            super(rabbit);
-            this.rabbit = rabbit;
-        }
-
-        public boolean getIsJumping()
-        {
-            return this.isJumping;
-        }
-
-        public boolean canJump()
-        {
-            return this.canJump;
-        }
-
-        public void setCanJump(boolean canJumpIn)
-        {
-            this.canJump = canJumpIn;
-        }
-
-        /**
-         * Called to actually make the entity jump if isJumping is true.
-         */
-        public void doJump()
-        {
-            if (this.isJumping)
-            {
-                this.rabbit.startJumping();
-                this.isJumping = false;
-            }
-        }
     }
-
-    static class RabbitMoveHelper extends EntityMoveHelper
-        {
-            private final EntityChinchilla rabbit;
-            private double nextJumpSpeed;
-
-            public RabbitMoveHelper(EntityChinchilla rabbit)
-            {
-                super(rabbit);
-                this.rabbit = rabbit;
-            }
-
-            public void onUpdateMoveHelper()
-            {
-                if (this.rabbit.onGround && !this.rabbit.isJumping && !((EntityChinchilla.RabbitJumpHelper)this.rabbit.jumpHelper).getIsJumping())
-                {
-                    this.rabbit.setMovementSpeed(0.0D);
-                }
-                else if (this.isUpdating())
-                {
-                    this.rabbit.setMovementSpeed(this.nextJumpSpeed);
-                }
-
-                super.onUpdateMoveHelper();
-            }
-
-            /**
-             * Sets the speed and location to move to
-             */
-            public void setMoveTo(double x, double y, double z, double speedIn)
-            {
-                if (this.rabbit.isInWater())
-                {
-                    speedIn = 1.5D;
-                }
-
-                super.setMoveTo(x, y, z, speedIn);
-
-                if (speedIn > 0.0D)
-                {
-                    this.nextJumpSpeed = speedIn;
-                }
-            }
-        }
-
-    public static class RabbitTypeData implements IEntityLivingData
-        {
-            public int typeData;
-
-            public RabbitTypeData(int type)
-            {
-                this.typeData = type;
-            }
-        }
-
-
-public boolean isMoving() {
-	return limbSwingAmount > 0.02F;
-}
-
-@Override
-public void onEntityUpdate() {
-	super.onEntityUpdate();
-	if(!calling && this.rand.nextFloat() < 0.01) 
-		calling = true;
-}
-
-public void setCalling(boolean calling) {
-	this.calling = calling;
-}
-
-public boolean isCalling() {
-	return calling;
-}
-
-}
