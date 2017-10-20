@@ -13,7 +13,7 @@ Download The Project to Contribute if you are on the NMFC Team;
 
 CANNOT;
 
-Cannot Distribute this code without Permission from me or Oceansssss, or Goony, Or Lukamas233
+Cannot Distribute this code without Permission from me or Oceansssss, or Goony, or SoggyMoustache, Or Lukamas233
 
 Cannot Modify This code unless you Code for this Mod or on the Team
 
@@ -34,6 +34,7 @@ Current Team:
 Oceanssss ---creator, modeller and texturer
 Goony ---Lead Developer
 Lukamas233 ---Lead Developer
+SoggyMoustache--Lead Developer
 __________________________________________________________________________________________________________________________________________
 
 
