@@ -3,14 +3,17 @@ package com.example.examplemod.proxy;
 import com.example.examplemod.EntityAlpaca;
 import com.example.examplemod.EntityChinchilla;
 import com.example.examplemod.EntityGuineaPig;
+import com.example.examplemod.EntityPuma;
 import com.example.examplemod.EntityVicuna;
 import com.example.examplemod.ModelAlpaca;
 import com.example.examplemod.ModelChinchilla;
 import com.example.examplemod.ModelGuineaPig;
+import com.example.examplemod.ModelPuma;
 import com.example.examplemod.ModelVicuna;
 import com.example.examplemod.RenderAlpaca;
 import com.example.examplemod.RenderChinchilla;
 import com.example.examplemod.RenderGuineaPig;
+import com.example.examplemod.RenderPuma;
 import com.example.examplemod.RenderVicuna;
 
 import net.minecraft.client.Minecraft;

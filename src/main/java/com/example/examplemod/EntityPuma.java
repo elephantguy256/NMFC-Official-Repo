@@ -60,18 +60,14 @@ public class EntityPuma extends EntityTameable
     public EntityPuma(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.6F, 0.7F);
+        this.setSize(1.4F, 1.4F);
     }
 
     protected void initEntityAI()
     {
-        this.aiSit = new EntityAISit(this);
-        this.aiTempt = new EntityAITempt(this, 0.6D, Items.FISH, true);
+       
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(3, this.aiTempt);
-        this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 5.0F));
         this.tasks.addTask(8, new EntityAIOcelotAttack(this));
         this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
         this.tasks.addTask(10, new EntityAIWanderAvoidWater(this, 0.8D, 1.0000001E-5F));
