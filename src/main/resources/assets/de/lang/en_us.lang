@@ -1,11 +1,23 @@
 #Items
 item.cookedguineapig.name=Cooked Guinea Pig
- item.rawguineapig.name=Raw Guinea Pig
- item.gpigpellets.name=Guinea Pig Pellets 
+ 
+item.rawguineapig.name=Raw Guinea Pig
+ 
+item.gpigpellets.name=Guinea Pig Pellets 
+
 
 
 #Blocks
-tile.tutorialBlock.name=Tutorial Block
- tile.tutorialOre.name=Tutorial Ore
-#Entities
+tile.patagoniangrass.name=Patagonian Grass 
+tile.patagoniandirt.name=Patagonian Dirt
+tile.guineapigcage.name=Guinea Pig Cage
+
+#Mobs
 entity.Alpaca.name=Alpaca
+entity.Guinea Pig.name=Guinea Pig
+entity.Puma.name=Puma
+entity.Chinchilla.name=Chinchilla
+entity.Vicuna.name=Vicuna
+
+
+

@@ -1,6 +1,6 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
-    "textures": {
+    "parent": "block/block",    "textures": {
         "0": "de:blocks/darkblueplastic",
         "1": "de:blocks/smallanimalbedding",
         "2": "de:blocks/whitewire",
