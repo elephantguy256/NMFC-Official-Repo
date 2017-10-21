@@ -162,6 +162,30 @@
             {"name": "de:hyena/cackle", "stream": true}
         ]
     },
+            "mob.puma.growl": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:bigcat/cougar1", "stream": true},
+            {"name": "de:bigcat/cougar2", "stream": true},
+            {"name": "de:bigcat/cougar3", "stream": true},
+            {"name": "de:bigcat/cougar4", "stream": true},
+            {"name": "de:bigcat/cougar5", "stream": true},
+            {"name": "de:bigcat/cougar6", "stream": true},
+            {"name": "de:bigcat/cougar7", "stream": true},
+            {"name": "de:bigcat/cougar8", "stream": true},
+            {"name": "de:bigcat/cougar9", "stream": true},
+            {"name": "de:bigcat/cougar10", "stream": true},
+            {"name": "de:bigcat/cougar11", "stream": true},
+            {"name": "de:bigcat/cougar12", "stream": true},
+            {"name": "de:bigcat/cougar13", "stream": true},
+            {"name": "de:bigcat/cougar14", "stream": true},
+            {"name": "de:bigcat/cougar15", "stream": true},
+            {"name": "de:bigcat/cougar16", "stream": true},
+            {"name": "de:bigcat/cougar17", "stream": true},
+            {"name": "de:bigcat/cougar18", "stream": true}
+        ]
+    },
         "mob.leopard.growl": {
         "category": "neutral",
         "sounds":
@@ -228,11 +252,25 @@
             {"name": "de:leopard/leopard_death4", "stream": true}
         ]
     },
-                    "mob.leopard.attack": {
+                    "mob.puma.purr": {
         "category": "neutral",
         "sounds":
         [
-            {"name": "de:leopard/leopard_attack1", "stream": true}
+            {"name": "de:bigcat/cougar_purring", "stream": true}
+        ]
+    },
+                        "mob.puma.hurt": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:bigcat/cougarhurt1", "stream": true}
+        ]
+    },
+                        "mob.puma.mew": {
+        "category": "neutral",
+        "sounds":
+        [
+            {"name": "de:bigcat/cougar_mewing", "stream": true}
         ]
     },
             "mob.africanwilddog.bark2": {

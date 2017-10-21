@@ -1,5 +1,4 @@
-# NMFC-Officail-Repo
-nature Makes a fowl comeback official repo
+# NMFC-Official-Repo
 
 This is the Official NMFC github;
 

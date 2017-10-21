@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.example.examplemod.entity;
 
 import javax.annotation.Nullable;
 
@@ -49,6 +49,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
+import sounds.SoundEvents2;
 
 public class EntityPuma extends EntityTameable
 {
@@ -60,18 +61,14 @@ public class EntityPuma extends EntityTameable
     public EntityPuma(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.6F, 0.7F);
+        this.setSize(1.4F, 1.4F);
     }
 
     protected void initEntityAI()
     {
-        this.aiSit = new EntityAISit(this);
-        this.aiTempt = new EntityAITempt(this, 0.6D, Items.FISH, true);
+       
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(3, this.aiTempt);
-        this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 5.0F));
         this.tasks.addTask(8, new EntityAIOcelotAttack(this));
         this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
         this.tasks.addTask(10, new EntityAIWanderAvoidWater(this, 0.8D, 1.0000001E-5F));
@@ -170,27 +167,27 @@ public class EntityPuma extends EntityTameable
         {
             if (this.isInLove())
             {
-                return SoundEvents.ENTITY_CAT_PURR;
+                return SoundEvents2.PUMA_PURR;
             }
             else
             {
-                return this.rand.nextInt(4) == 0 ? SoundEvents.ENTITY_CAT_PURREOW : SoundEvents.ENTITY_CAT_AMBIENT;
+                return this.rand.nextInt(4) == 0 ? SoundEvents2.PUMA_MEW : SoundEvents2.PUMA_MEW;
             }
         }
         else
         {
-            return null;
+            return SoundEvents2.PUMA;
         }
     }
 
     protected SoundEvent getHurtSound(DamageSource p_184601_1_)
     {
-        return SoundEvents.ENTITY_CAT_HURT;
+        return SoundEvents2.PUMA;
     }
 
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents.ENTITY_CAT_DEATH;
+        return SoundEvents2.PUMA_HURT;
     }
 
     /**
@@ -424,4 +421,9 @@ public class EntityPuma extends EntityTameable
 
         return livingdata;
     }
+
+	public float getGallopTicks() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
