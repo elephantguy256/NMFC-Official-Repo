@@ -5,6 +5,7 @@ import com.example.examplemod.ModEntities;
 import init.ModBlocks;
 import init.ModItems;
 import init.ModRecipes;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -12,9 +13,12 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import tabs.NMAFCTab;
 
 @Mod(modid = NMFC.MODID, name = NMFC.MODNAME, version = NMFC.MODVERSION)
-public class NMFC {
+public class NMFC 
+{
+	public static final CreativeTabs nmafctab = new NMAFCTab("nmafctab");
 	
     public static final String MODID = "de";
 
