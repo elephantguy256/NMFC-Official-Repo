@@ -1,8 +1,7 @@
 package com.example.examplemod.proxy;
 
-import com.example.examplemod.ModEntities;
-
 import init.ModBlocks;
+import init.ModEntities;
 import init.ModItems;
 import init.ModRecipes;
 import net.minecraft.creativetab.CreativeTabs;

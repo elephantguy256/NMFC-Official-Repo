@@ -1,6 +1,11 @@
-package com.example.examplemod;
+package init;
 
 
+import com.example.examplemod.entity.EntityAlpaca;
+import com.example.examplemod.entity.EntityChinchilla;
+import com.example.examplemod.entity.EntityGuineaPig;
+import com.example.examplemod.entity.EntityPuma;
+import com.example.examplemod.entity.EntityVicuna;
 import com.example.examplemod.proxy.NMFC;
 
 import net.minecraft.client.Minecraft;
@@ -15,7 +20,7 @@ public class ModEntities {
     public static void init() {
         // mobs spawn eggs are put here, just replace Entity.class with Entity "Whatever the entity file was"
         int id = 1;
-        EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de5"), EntityPuma.class, "Puma", id++, NMFC.instance, 64, 3, true, 0xffe0bd	, 0xffad60	); 
+        EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de5"), EntityPuma.class, "Cougar", id++, NMFC.instance, 64, 3, true, 0xffe0bd	, 0xffad60	); 
            EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de1"), EntityGuineaPig.class, "Guinea Pig", id++, NMFC.instance, 64, 3, true, 0xff7800, 0xd5a377); 
            EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de2"), EntityChinchilla.class, "Chinchilla", id++, NMFC.instance, 64, 3, true, 0x696969, 0xdcdcdc);      
            EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de3"), EntityVicuna.class, "Vicuna", id++, NMFC.instance, 64, 3, true, 0xCD853F, 0xdfc49f);       

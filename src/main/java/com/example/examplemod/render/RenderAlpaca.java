@@ -1,10 +1,10 @@
-package com.example.examplemod;
+package com.example.examplemod.render;
 
-import net.minecraft.client.model.ModelLlama;
+import com.example.examplemod.entity.EntityAlpaca;
+import com.example.examplemod.model.ModelAlpaca;
+
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerLlamaDecor;
-import net.minecraft.entity.passive.EntityLlama;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

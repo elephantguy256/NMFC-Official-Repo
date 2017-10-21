@@ -1,8 +1,10 @@
-package com.example.examplemod;
+package com.example.examplemod.entity;
 
 import javax.annotation.Nullable;
 
-import init.ModItems;
+import com.example.examplemod.sounds.SoundEvents2;
+import com.google.common.base.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -11,17 +13,22 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIOcelotAttack;
-import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityLlama;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -41,35 +48,36 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityGuineaPig extends EntityTameable
+public class EntityPuma extends EntityTameable
 {
-
-    private static final DataParameter<Integer> OCELOT_VARIANT = EntityDataManager.<Integer>createKey(EntityGuineaPig.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> OCELOT_VARIANT = EntityDataManager.<Integer>createKey(EntityPuma.class, DataSerializers.VARINT);
     private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
     /** The tempt AI task for this mob, used to prevent taming while it is fleeing. */
     private EntityAITempt aiTempt;
-	private boolean calling;
 
-    public EntityGuineaPig(World worldIn)
+    public EntityPuma(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.6F, 0.7F);
+        this.setSize(1.4F, 1.4F);
     }
 
     protected void initEntityAI()
     {
-        this.aiSit = new EntityAISit(this);
-        this.aiTempt = new EntityAITempt(this, 0.6D, ModItems.gpigpellets, false);
+       
+        this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(3, this.aiTempt);
-        this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 5.0F));
-        this.tasks.addTask(7, new EntityAILeapAtTarget(this, 0.3F));
         this.tasks.addTask(8, new EntityAIOcelotAttack(this));
         this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
-        this.tasks.addTask(11, new EntityAIAvoidEntity(this, EntityPlayer.class, 10.0F, interpTargetPitch, interpTargetPitch));
         this.tasks.addTask(10, new EntityAIWanderAvoidWater(this, 0.8D, 1.0000001E-5F));
         this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityCow.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntitySheep.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityPig.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityWolf.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityLlama.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityVicuna.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityAlpaca.class, false, (Predicate)null));
     }
 
     protected void entityInit()
@@ -128,7 +136,7 @@ public class EntityGuineaPig extends EntityTameable
 
     public static void registerFixesOcelot(DataFixer fixer)
     {
-        EntityLiving.registerFixesMob(fixer, EntityGuineaPig.class);
+        EntityLiving.registerFixesMob(fixer, EntityPuma.class);
     }
 
     /**
@@ -156,28 +164,27 @@ public class EntityGuineaPig extends EntityTameable
         {
             if (this.isInLove())
             {
-                return SoundEvents2.GUINEA_PIG;
+                return SoundEvents2.PUMA_PURR;
             }
             else
             {
-            	return this.rand.nextInt(4) == 0 ? SoundEvents2.GUINEA_PIG : SoundEvents2.GUINEA_PIG;
+                return this.rand.nextInt(4) == 0 ? SoundEvents2.PUMA_MEW : SoundEvents2.PUMA_MEW;
             }
-
         }
         else
         {
-            return null;
+            return SoundEvents2.PUMA;
         }
     }
 
     protected SoundEvent getHurtSound(DamageSource p_184601_1_)
     {
-        return SoundEvents2.GUINEA_PIG_HURT;
+        return SoundEvents2.PUMA;
     }
 
     protected SoundEvent getDeathSound()
     {
-        return SoundEvents2.GUINEA_PIG_HURT;
+        return SoundEvents2.PUMA_HURT;
     }
 
     /**
@@ -190,7 +197,7 @@ public class EntityGuineaPig extends EntityTameable
 
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 3.0F);
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), 8.0F);
     }
 
     /**
@@ -230,7 +237,7 @@ public class EntityGuineaPig extends EntityTameable
                 this.aiSit.setSitting(!this.isSitting());
             }
         }
-        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == ModItems.gpigpellets && player.getDistanceSqToEntity(this) < 9.0D)
+        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == Items.FISH && player.getDistanceSqToEntity(this) < 9.0D)
         {
             if (!player.capabilities.isCreativeMode)
             {
@@ -239,10 +246,10 @@ public class EntityGuineaPig extends EntityTameable
 
             if (!this.world.isRemote)
             {
-                if (this.rand.nextInt(8) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player))
+                if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player))
                 {
                     this.setTamedBy(player);
-                    this.setTameSkin(1 + this.world.rand.nextInt(8));
+                    this.setTameSkin(1 + this.world.rand.nextInt(3));
                     this.playTameEffect(true);
                     this.aiSit.setSitting(true);
                     this.world.setEntityState(this, (byte)7);
@@ -260,9 +267,9 @@ public class EntityGuineaPig extends EntityTameable
         return super.processInteract(player, hand);
     }
 
-    public EntityGuineaPig createChild(EntityAgeable ageable)
+    public EntityPuma createChild(EntityAgeable ageable)
     {
-        EntityGuineaPig entityocelot = new EntityGuineaPig(this.world);
+        EntityPuma entityocelot = new EntityPuma(this.world);
 
         if (this.isTamed())
         {
@@ -273,16 +280,6 @@ public class EntityGuineaPig extends EntityTameable
 
         return entityocelot;
     }
-    
-    protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
-    {
-      dropItem(ModItems.rawguineapig, 1);
-      if (isBurning()) {
-        dropItem(ModItems.rawguineapig, 1);
-      } else {
-        dropItem(ModItems.rawguineapig, 1);
-      }
-    }
 
     /**
      * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
@@ -290,7 +287,7 @@ public class EntityGuineaPig extends EntityTameable
      */
     public boolean isBreedingItem(ItemStack stack)
     {
-        return stack.getItem() == Items.WHEAT;
+        return stack.getItem() == Items.FISH;
     }
 
     /**
@@ -306,13 +303,13 @@ public class EntityGuineaPig extends EntityTameable
         {
             return false;
         }
-        else if (!(otherAnimal instanceof EntityGuineaPig))
+        else if (!(otherAnimal instanceof EntityPuma))
         {
             return false;
         }
         else
         {
-            EntityGuineaPig entityocelot = (EntityGuineaPig)otherAnimal;
+            EntityPuma entityocelot = (EntityPuma)otherAnimal;
 
             if (!entityocelot.isTamed())
             {
@@ -380,7 +377,7 @@ public class EntityGuineaPig extends EntityTameable
         }
         else
         {
-            return this.isTamed() ? I18n.translateToLocal("entity.GuineaPig.name") : super.getName();
+            return this.isTamed() ? I18n.translateToLocal("entity.Cat.name") : super.getName();
         }
     }
 
@@ -408,11 +405,11 @@ public class EntityGuineaPig extends EntityTameable
     {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
-        if (this.getTameSkin() == 0 && this.world.rand.nextInt(10) == 0)
+        if (this.getTameSkin() == 0 && this.world.rand.nextInt(7) == 0)
         {
             for (int i = 0; i < 2; ++i)
             {
-                EntityGuineaPig entityocelot = new EntityGuineaPig(this.world);
+                EntityPuma entityocelot = new EntityPuma(this.world);
                 entityocelot.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
                 entityocelot.setGrowingAge(-24000);
                 this.world.spawnEntity(entityocelot);
@@ -422,23 +419,8 @@ public class EntityGuineaPig extends EntityTameable
         return livingdata;
     }
 
-    public boolean isMoving() {
-    	return limbSwingAmount > 0.02F;
-    }
-
-    @Override
-    public void onEntityUpdate() {
-    	super.onEntityUpdate();
-    	if(!calling && this.rand.nextFloat() < 0.01) 
-    		calling = true;
-    }
-
-    public void setCalling(boolean calling) {
-    	this.calling = calling;
-    }
-
-    public boolean isCalling() {
-    	return calling;
-    }
-
-    }
+	public float getGallopTicks() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}

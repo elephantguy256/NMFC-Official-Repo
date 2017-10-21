@@ -1,4 +1,7 @@
-package com.example.examplemod;
+package com.example.examplemod.render;
+
+import com.example.examplemod.entity.EntityPuma;
+import com.example.examplemod.model.ModelPuma;
 
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;

@@ -1,10 +1,11 @@
-package com.example.examplemod;
+package com.example.examplemod.render;
 
-import net.minecraft.client.model.ModelOcelot;
+import com.example.examplemod.entity.EntityChinchilla;
+import com.example.examplemod.model.ModelChinchilla;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

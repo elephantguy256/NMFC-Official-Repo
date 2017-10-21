@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.example.examplemod.model;
 
 import org.lwjgl.opengl.GL11;
 

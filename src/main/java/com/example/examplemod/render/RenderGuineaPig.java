@@ -1,11 +1,11 @@
-package com.example.examplemod;
+	package com.example.examplemod.render;
 
-import com.example.examplemod.ModelGuineaPig;
+import com.example.examplemod.entity.EntityGuineaPig;
+import com.example.examplemod.model.ModelGuineaPig;
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-
-import com.example.examplemod.EntityGuineaPig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

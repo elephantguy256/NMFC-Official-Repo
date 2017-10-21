@@ -1,11 +1,11 @@
 package com.example.examplemod.proxy;
 
-import com.example.examplemod.EntityChinchilla;
-import com.example.examplemod.EntityGuineaPig;
-import com.example.examplemod.ModelChinchilla;
-import com.example.examplemod.ModelGuineaPig;
-import com.example.examplemod.RenderChinchilla;
-import com.example.examplemod.RenderGuineaPig;
+import com.example.examplemod.entity.EntityChinchilla;
+import com.example.examplemod.entity.EntityGuineaPig;
+import com.example.examplemod.model.ModelChinchilla;
+import com.example.examplemod.model.ModelGuineaPig;
+import com.example.examplemod.render.RenderChinchilla;
+import com.example.examplemod.render.RenderGuineaPig;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;

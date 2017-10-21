@@ -1,9 +1,10 @@
-package com.example.examplemod;
+package com.example.examplemod.render;
 
-import net.minecraft.client.model.ModelCow;
+import com.example.examplemod.entity.EntityVicuna;
+import com.example.examplemod.model.ModelVicuna;
+
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

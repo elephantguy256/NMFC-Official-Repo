@@ -1,4 +1,6 @@
-package com.example.examplemod;
+package com.example.examplemod.model;
+
+import com.example.examplemod.entity.EntityPuma;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

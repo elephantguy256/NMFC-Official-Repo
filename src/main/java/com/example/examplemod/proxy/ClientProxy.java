@@ -1,20 +1,20 @@
 package com.example.examplemod.proxy;
 
-import com.example.examplemod.EntityAlpaca;
-import com.example.examplemod.EntityChinchilla;
-import com.example.examplemod.EntityGuineaPig;
-import com.example.examplemod.EntityPuma;
-import com.example.examplemod.EntityVicuna;
-import com.example.examplemod.ModelAlpaca;
-import com.example.examplemod.ModelChinchilla;
-import com.example.examplemod.ModelGuineaPig;
-import com.example.examplemod.ModelPuma;
-import com.example.examplemod.ModelVicuna;
-import com.example.examplemod.RenderAlpaca;
-import com.example.examplemod.RenderChinchilla;
-import com.example.examplemod.RenderGuineaPig;
-import com.example.examplemod.RenderPuma;
-import com.example.examplemod.RenderVicuna;
+import com.example.examplemod.entity.EntityAlpaca;
+import com.example.examplemod.entity.EntityChinchilla;
+import com.example.examplemod.entity.EntityGuineaPig;
+import com.example.examplemod.entity.EntityPuma;
+import com.example.examplemod.entity.EntityVicuna;
+import com.example.examplemod.model.ModelAlpaca;
+import com.example.examplemod.model.ModelChinchilla;
+import com.example.examplemod.model.ModelGuineaPig;
+import com.example.examplemod.model.ModelPuma;
+import com.example.examplemod.model.ModelVicuna;
+import com.example.examplemod.render.RenderAlpaca;
+import com.example.examplemod.render.RenderChinchilla;
+import com.example.examplemod.render.RenderGuineaPig;
+import com.example.examplemod.render.RenderPuma;
+import com.example.examplemod.render.RenderVicuna;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

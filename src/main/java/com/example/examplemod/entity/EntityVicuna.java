@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.example.examplemod.entity;
 
 import javax.annotation.Nullable;
 

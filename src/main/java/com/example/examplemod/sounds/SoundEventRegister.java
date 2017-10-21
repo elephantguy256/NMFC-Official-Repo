@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package com.example.examplemod;
+package com.example.examplemod.sounds;
 
 import net.minecraftforge.registries.IForgeRegistryEntry;
 

@@ -1,6 +1,8 @@
-package com.example.examplemod;
+package com.example.examplemod.entity;
 
 import javax.annotation.Nullable;
+
+import com.example.examplemod.sounds.SoundEvents2;
 
 import init.ModItems;
 import net.minecraft.block.Block;
