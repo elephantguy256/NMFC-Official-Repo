@@ -15,6 +15,7 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackRanged;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILlamaFollowCaravan;
@@ -56,7 +57,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityAlpaca extends AbstractChestHorse implements IRangedAttackMob
 {
-    private static final DataParameter<Integer> DATA_STRENGTH_ID = EntityDataManager.<Integer>createKey(EntityAlpaca.class, DataSerializers.VARINT);
+    public class AIAvoidEntity extends EntityAIBase {
+
+		public AIAvoidEntity(EntityAlpaca entityAlpaca, Class<EntityPuma> class1, float f, double d, double e) {
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public boolean shouldExecute() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+	}
+
+	private static final DataParameter<Integer> DATA_STRENGTH_ID = EntityDataManager.<Integer>createKey(EntityAlpaca.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.<Integer>createKey(EntityAlpaca.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_VARIANT_ID = EntityDataManager.<Integer>createKey(EntityAlpaca.class, DataSerializers.VARINT);
     private boolean didSpit;
@@ -130,8 +145,10 @@ public class EntityAlpaca extends AbstractChestHorse implements IRangedAttackMob
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.7D));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
+        this.tasks.addTask(9, new EntityAlpaca.AIAvoidEntity(this, EntityPuma.class, 10.0F, 2.2D, 2.2D));
         this.targetTasks.addTask(1, new EntityAlpaca.AIHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAlpaca.AIDefendTarget(this));
+        
     }
 
     protected void applyEntityAttributes()

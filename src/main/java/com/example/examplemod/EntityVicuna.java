@@ -107,6 +107,7 @@ public class EntityVicuna extends EntityAnimal
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.tasks.addTask(8, new EntityVicuna.AIAvoidEntity(this, EntityPlayer.class, 8.0F, 2.2D, 2.2D));
         this.tasks.addTask(8, new EntityVicuna.AIAvoidEntity(this, EntityWolf.class, 10.0F, 2.2D, 2.2D));
+        this.tasks.addTask(8, new EntityVicuna.AIAvoidEntity(this, EntityPuma.class, 10.0F, 2.2D, 2.2D));
         this.tasks.addTask(9, new EntityVicuna.AIEatGrass(this));
     }
 

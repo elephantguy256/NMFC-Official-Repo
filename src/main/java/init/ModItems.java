@@ -21,9 +21,9 @@ public class ModItems {
 
 	
 	public static void init() {
-		rawguineapig = new ItemBasic("rawguineapig").setCreativeTab(CreativeTabs.MATERIALS).setMaxStackSize(32);
-		cookedguineapig = new ItemBasic("cookedguineapig").setCreativeTab(CreativeTabs.MATERIALS).setMaxStackSize(32);
-		gpigpellets = new ItemBasic("gpigpellets").setCreativeTab(CreativeTabs.MISC).setMaxStackSize(32);
+		rawguineapig = new ItemBasic("rawguineapig").setCreativeTab(NMFC.nmafctab).setMaxStackSize(32);
+		cookedguineapig = new ItemBasic("cookedguineapig").setCreativeTab(NMFC.nmafctab).setMaxStackSize(32);
+		gpigpellets = new ItemBasic("gpigpellets").setCreativeTab(NMFC.nmafctab).setMaxStackSize(32);
 	}
 	
 	@SubscribeEvent
