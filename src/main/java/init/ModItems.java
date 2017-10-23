@@ -26,8 +26,8 @@ public class ModItems {
 	
 	
 	public static void init() {
-		rawguineapig = new ItemBasic("rawguineapig").setCreativeTab(NMFC.nmafctab).setMaxStackSize(32);
-		cookedguineapig = new ItemBasic("cookedguineapig").setCreativeTab(NMFC.nmafctab).setMaxStackSize(32);
+		rawguineapig = new ItemBasic("rawguineapig").setCreativeTab(NMFC.meattab).setMaxStackSize(32);
+		cookedguineapig = new ItemBasic("cookedguineapig").setCreativeTab(NMFC.meattab).setMaxStackSize(32);
 		gpigpellets = new ItemBasic("gpigpellets").setCreativeTab(NMFC.petstab).setMaxStackSize(32);
 		southamericasticker = new ItemBasic("southamericasticker").setMaxStackSize(32);
 		europesticker = new ItemBasic("europesticker").setMaxStackSize(32);

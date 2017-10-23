@@ -16,6 +16,7 @@ import tabs.AFRICATab;
 import tabs.ASIATab;
 import tabs.AUSTRALIATab;
 import tabs.EUROPETab;
+import tabs.MEATTab;
 import tabs.NMAFCTab;
 import tabs.PETSTab;
 
@@ -28,6 +29,7 @@ public class NMFC
 	public static final CreativeTabs africatab = new AFRICATab("africatab");
 	public static final CreativeTabs australiatab = new AUSTRALIATab("australiatab");
 	public static final CreativeTabs petstab = new PETSTab("petstab");
+	public static final CreativeTabs meattab = new MEATTab("meattab");
 	
     public static final String MODID = "de";
 

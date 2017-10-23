@@ -20,35 +20,32 @@ public class ModBlocks {
 
 	public static Block patagoniandirt;
 	public static Block patagoniangrass;
-	public static Block guineapigcage;
+	
 
 	
 	public static void init() {
 		patagoniandirt = new BlockBasic("patagoniandirt", Material.GROUND).setHardness(1.5f).setCreativeTab(NMFC.nmafctab).setLightLevel(1.0f);
 		patagoniandirt.setHarvestLevel("pickaxe", 2);
 		patagoniangrass = new BlockBasic("patagoniangrass", Material.GROUND).setHardness(1.5f).setCreativeTab(NMFC.nmafctab).setLightLevel(1.0f);
-		guineapigcage = new BlockBasic("guineapigcage", Material.GROUND).setHardness(1.5f).setCreativeTab(NMFC.petstab).setLightLevel(1.0f);
+		
 		
 	}
 	
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		event.getRegistry().registerAll(patagoniandirt);
-		event.getRegistry().registerAll(guineapigcage);
-		event.getRegistry().registerAll(patagoniangrass);
+	    event.getRegistry().registerAll(patagoniangrass);
 	}
 	
 	@SubscribeEvent
 	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(new ItemBlock(patagoniangrass).setRegistryName(patagoniangrass.getRegistryName()));
-		event.getRegistry().registerAll(new ItemBlock(guineapigcage).setRegistryName(guineapigcage.getRegistryName()));
 		event.getRegistry().registerAll(new ItemBlock(patagoniandirt).setRegistryName(patagoniandirt.getRegistryName()));
 	}
 	
 	@SubscribeEvent
 	public static void registerRenders(ModelRegistryEvent event) {
 		registerRender(Item.getItemFromBlock(patagoniandirt));
-		registerRender(Item.getItemFromBlock(guineapigcage));
 		registerRender(Item.getItemFromBlock(patagoniangrass));
 	}
 	

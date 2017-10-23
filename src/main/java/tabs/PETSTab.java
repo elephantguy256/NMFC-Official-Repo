@@ -11,7 +11,7 @@ public class PETSTab extends CreativeTabs
    public PETSTab(String label) { super("petstab");
   
       }
-public ItemStack getTabIconItem() { return new ItemStack(Item.getItemFromBlock(ModBlocks.guineapigcage));}
+public ItemStack getTabIconItem() { return new ItemStack(ModItems.gpigpellets);}
 	
 }
 
