@@ -12,12 +12,22 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import tabs.AFRICATab;
+import tabs.ASIATab;
+import tabs.AUSTRALIATab;
+import tabs.EUROPETab;
 import tabs.NMAFCTab;
+import tabs.PETSTab;
 
 @Mod(modid = NMFC.MODID, name = NMFC.MODNAME, version = NMFC.MODVERSION)
 public class NMFC 
 {
 	public static final CreativeTabs nmafctab = new NMAFCTab("nmafctab");
+	public static final CreativeTabs europetab = new EUROPETab("europetab");
+	public static final CreativeTabs asiatab = new ASIATab("asiatab");
+	public static final CreativeTabs africatab = new AFRICATab("africatab");
+	public static final CreativeTabs australiatab = new AUSTRALIATab("australiatab");
+	public static final CreativeTabs petstab = new PETSTab("petstab");
 	
     public static final String MODID = "de";
 

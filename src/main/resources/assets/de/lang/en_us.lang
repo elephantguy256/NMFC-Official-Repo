@@ -20,6 +20,9 @@ entity.Chinchilla.name=Chinchilla
 entity.Vicuna.name=Vicuna
 
 #Tabs
-itemGroup.nmafctab= Nature Makes A Fowl Comeback
-
-
+itemGroup.nmafctab=Americas
+itemGroup.europetab=Europe
+itemGroup.asiatab=Asia
+itemGroup.africatab=Africa
+itemGroup.australiatab=Australia
+itemGroup.petstab=Animal Husbandry

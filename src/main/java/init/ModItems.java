@@ -18,12 +18,23 @@ public class ModItems {
 	public static Item gpigpellets;
 	public static Item rawguineapig;
 	public static Item cookedguineapig;
-
+	public static Item southamericasticker; 
+	public static Item europesticker; 
+	public static Item asiasticker; 
+	public static Item africasticker; 
+	public static Item australiasticker; 
+	
 	
 	public static void init() {
 		rawguineapig = new ItemBasic("rawguineapig").setCreativeTab(NMFC.nmafctab).setMaxStackSize(32);
 		cookedguineapig = new ItemBasic("cookedguineapig").setCreativeTab(NMFC.nmafctab).setMaxStackSize(32);
-		gpigpellets = new ItemBasic("gpigpellets").setCreativeTab(NMFC.nmafctab).setMaxStackSize(32);
+		gpigpellets = new ItemBasic("gpigpellets").setCreativeTab(NMFC.petstab).setMaxStackSize(32);
+		southamericasticker = new ItemBasic("southamericasticker").setMaxStackSize(32);
+		europesticker = new ItemBasic("europesticker").setMaxStackSize(32);
+		asiasticker = new ItemBasic("asiasticker").setMaxStackSize(32);
+		africasticker = new ItemBasic("africasticker").setMaxStackSize(32);
+		australiasticker = new ItemBasic("australiasticker").setMaxStackSize(32);
+		
 	}
 	
 	@SubscribeEvent
@@ -31,6 +42,12 @@ public class ModItems {
 		event.getRegistry().registerAll(gpigpellets, gpigpellets);
 		event.getRegistry().registerAll(cookedguineapig, cookedguineapig);
 		event.getRegistry().registerAll(rawguineapig, rawguineapig);
+		event.getRegistry().registerAll(southamericasticker, southamericasticker);
+		event.getRegistry().registerAll(europesticker, europesticker);
+		event.getRegistry().registerAll(asiasticker, asiasticker);
+		event.getRegistry().registerAll(africasticker, africasticker);
+		event.getRegistry().registerAll(australiasticker, australiasticker);
+		
 	}
 	
 	@SubscribeEvent
@@ -38,6 +55,11 @@ public class ModItems {
 		registerRender(gpigpellets);
 		registerRender(rawguineapig);
 		registerRender(cookedguineapig);
+		registerRender(southamericasticker);
+		registerRender(europesticker);
+		registerRender(asiasticker);
+		registerRender(africasticker);
+		registerRender(australiasticker);
 	}
 	
 	private static void registerRender(Item item) {

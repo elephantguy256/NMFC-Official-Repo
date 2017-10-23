@@ -27,7 +27,7 @@ public class ModBlocks {
 		patagoniandirt = new BlockBasic("patagoniandirt", Material.GROUND).setHardness(1.5f).setCreativeTab(NMFC.nmafctab).setLightLevel(1.0f);
 		patagoniandirt.setHarvestLevel("pickaxe", 2);
 		patagoniangrass = new BlockBasic("patagoniangrass", Material.GROUND).setHardness(1.5f).setCreativeTab(NMFC.nmafctab).setLightLevel(1.0f);
-		guineapigcage = new BlockBasic("guineapigcage", Material.GROUND).setHardness(1.5f).setCreativeTab(NMFC.nmafctab).setLightLevel(1.0f);
+		guineapigcage = new BlockBasic("guineapigcage", Material.GROUND).setHardness(1.5f).setCreativeTab(NMFC.petstab).setLightLevel(1.0f);
 		
 	}
 	

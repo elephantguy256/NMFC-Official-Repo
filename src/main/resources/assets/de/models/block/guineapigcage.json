@@ -1,17 +1,17 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
-    "parent": "block/block",    "textures": {
-        "0": "de:blocks/darkblueplastic",
-        "1": "de:blocks/smallanimalbedding",
-        "2": "de:blocks/whitewire",
-        "3": "de:blocks/planksoak",
-        "4": "de:blocks/water",
-        "5": "de:blocks/waterbottlemetal",
-        "6": "de:blocks/hayblockside",
-        "7": "de:blocks/hayblocktop",
-        "8": "de:blocks/pellets",
-        "9": "de:blocks/stickfront",
-        "10": "de:blocks/stick"
+    "textures": {
+        "0": "blocks/darkblueplastic",
+        "1": "blocks/smallanimalbedding",
+        "2": "blocks/whitewire",
+        "3": "blocks/planksoak",
+        "4": "blocks/water",
+        "5": "blocks/waterbottlemetal",
+        "6": "blocks/hayblock_side",
+        "7": "blocks/hayblocktop",
+        "8": "blocks/pellets",
+        "9": "blocks/stickfront",
+        "10": "blocks/stick"
     },
     "elements": [
         {

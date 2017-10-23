@@ -1,7 +1,7 @@
 {
-    "parent": "de:block/guineapigcage",
+    "parent": "item/generated",
     "textures": {
-        "layer0": "de:items/guineapigcage"
+        "layer0": "de:items/australiasticker"
      },
      
     "display": {
