@@ -18,6 +18,8 @@ entity.Guinea Pig.name=Guinea Pig
 entity.Cougar.name=Cougar
 entity.Chinchilla.name=Chinchilla
 entity.Vicuna.name=Vicuna
+entity.Pampas Fox.name=Pampas Fox
+entity.Andean Goose.name=Andean Goose
 
 #Tabs
 itemGroup.nmafctab=Americas

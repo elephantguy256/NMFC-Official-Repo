@@ -1,4 +1,4 @@
-	package com.example.examplemod.render;
+package com.example.examplemod.render;
 
 import com.example.examplemod.entity.EntityGuineaPig;
 import com.example.examplemod.model.ModelGuineaPig;

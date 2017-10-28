@@ -1,18 +1,24 @@
 package com.example.examplemod.proxy;
 
 import com.example.examplemod.entity.EntityAlpaca;
+import com.example.examplemod.entity.EntityAndeanGoose;
 import com.example.examplemod.entity.EntityChinchilla;
 import com.example.examplemod.entity.EntityGuineaPig;
+import com.example.examplemod.entity.EntityPampasFox;
 import com.example.examplemod.entity.EntityPuma;
 import com.example.examplemod.entity.EntityVicuna;
 import com.example.examplemod.model.ModelAlpaca;
+import com.example.examplemod.model.ModelAndeanGoose;
 import com.example.examplemod.model.ModelChinchilla;
 import com.example.examplemod.model.ModelGuineaPig;
+import com.example.examplemod.model.ModelPampasFox;
 import com.example.examplemod.model.ModelPuma;
 import com.example.examplemod.model.ModelVicuna;
 import com.example.examplemod.render.RenderAlpaca;
+import com.example.examplemod.render.RenderAndeanGoose;
 import com.example.examplemod.render.RenderChinchilla;
 import com.example.examplemod.render.RenderGuineaPig;
+import com.example.examplemod.render.RenderPampasFox;
 import com.example.examplemod.render.RenderPuma;
 import com.example.examplemod.render.RenderVicuna;
 
@@ -62,6 +68,9 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityGuineaPig.class, new RenderGuineaPig(renderManager, new ModelGuineaPig(), 0.5F));  
         RenderingRegistry.registerEntityRenderingHandler(EntityVicuna.class, new RenderVicuna(renderManager, new ModelVicuna(), 0.5f)); 
         RenderingRegistry.registerEntityRenderingHandler(EntityAlpaca.class, new RenderAlpaca(renderManager, new ModelAlpaca(), 0.7F)); 
+        RenderingRegistry.registerEntityRenderingHandler(EntityPampasFox.class, new RenderPampasFox(renderManager, new ModelPampasFox(), 0.7F)); 
+        RenderingRegistry.registerEntityRenderingHandler(EntityAndeanGoose.class, new RenderAndeanGoose(renderManager, new ModelAndeanGoose(), 0.7F)); 
+        
         }
 }
 

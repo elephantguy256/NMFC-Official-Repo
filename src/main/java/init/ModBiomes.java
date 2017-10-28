@@ -8,7 +8,6 @@ public abstract class ModBiomes
 {
     public static final Biome PATAGONIA;
     
-
     private static Biome getRegisteredBiome(String id)
     {
         Biome biome = Biome.REGISTRY.getObject(new ResourceLocation(id));
@@ -32,7 +31,7 @@ public abstract class ModBiomes
         else
         {
             PATAGONIA = getRegisteredBiome("patagonia");
-
+            
         }
     }
 }

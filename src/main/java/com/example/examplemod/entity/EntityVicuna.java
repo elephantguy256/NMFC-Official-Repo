@@ -102,7 +102,6 @@ public class EntityVicuna extends EntityAnimal
         this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(3, new EntityAITempt(this, 1.25D, Items.WHEAT, false));
         this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.tasks.addTask(8, new EntityVicuna.AIAvoidEntity(this, EntityPlayer.class, 8.0F, 2.2D, 2.2D));

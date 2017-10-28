@@ -1,14 +1,20 @@
 package com.example.examplemod.entity;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
+import com.example.examplemod.entity.EntityVicuna.EntityAIPanic;
 import com.example.examplemod.sounds.SoundEvents2;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,12 +29,14 @@ import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityLlama;
 import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityWolf;
@@ -40,22 +48,26 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityPuma extends EntityTameable
+public class EntityPampasFox extends EntityTameable
 {
-    public class AISpiderTarget extends EntityAIBase {
+    public class AIAvoidEntity extends EntityAIBase {
 
-		public AISpiderTarget(EntityPuma entityPuma, Class<EntityPlayer> class1) {
+		public AIAvoidEntity(EntityPampasFox entityPampasFox, Class<EntityPuma> class1, float f, double d, double e) {
 			// TODO Auto-generated constructor stub
 		}
 
@@ -67,12 +79,26 @@ public class EntityPuma extends EntityTameable
 
 	}
 
-	private static final DataParameter<Integer> OCELOT_VARIANT = EntityDataManager.<Integer>createKey(EntityPuma.class, DataSerializers.VARINT);
+	public class AISpiderTarget extends EntityAIBase {
+
+		public AISpiderTarget(EntityPampasFox entityPuma, Class<EntityPlayer> class1) {
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public boolean shouldExecute() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+	}
+
+	private static final DataParameter<Integer> OCELOT_VARIANT = EntityDataManager.<Integer>createKey(EntityPampasFox.class, DataSerializers.VARINT);
     private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
     /** The tempt AI task for this mob, used to prevent taming while it is fleeing. */
     private EntityAITempt aiTempt;
 
-    public EntityPuma(World worldIn)
+    public EntityPampasFox(World worldIn)
     {
         super(worldIn);
         this.setSize(1.4F, 1.4F);
@@ -82,22 +108,20 @@ public class EntityPuma extends EntityTameable
     {
        
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
+        this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(8, new EntityAIOcelotAttack(this));
+        this.tasks.addTask(12, new EntityPampasFox.AIAvoidEntity(this, EntityPuma.class, 8.0F, 2.2D, 2.2D));
         this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
         this.tasks.addTask(10, new EntityAIWanderAvoidWater(this, 0.8D, 1.0000001E-5F));
         this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
         this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate)null));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityCow.class, false, (Predicate)null));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntitySheep.class, false, (Predicate)null));
         this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityPig.class, false, (Predicate)null));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityWolf.class, false, (Predicate)null));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityLlama.class, false, (Predicate)null));
         this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityVicuna.class, false, (Predicate)null));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityAlpaca.class, false, (Predicate)null));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityPampasFox.class, false, (Predicate)null));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(2, new EntityPuma.AISpiderTarget(this, EntityPlayer.class));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityRabbit.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityGuineaPig.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChinchilla.class, false, (Predicate)null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityAndeanGoose.class, false, (Predicate)null));
     }
 
     protected void entityInit()
@@ -156,7 +180,7 @@ public class EntityPuma extends EntityTameable
 
     public static void registerFixesOcelot(DataFixer fixer)
     {
-        EntityLiving.registerFixesMob(fixer, EntityPuma.class);
+        EntityLiving.registerFixesMob(fixer, EntityPampasFox.class);
     }
 
     /**
@@ -287,9 +311,9 @@ public class EntityPuma extends EntityTameable
         return super.processInteract(player, hand);
     }
 
-    public EntityPuma createChild(EntityAgeable ageable)
+    public EntityPampasFox createChild(EntityAgeable ageable)
     {
-        EntityPuma entityocelot = new EntityPuma(this.world);
+        EntityPampasFox entityocelot = new EntityPampasFox(this.world);
 
         if (this.isTamed())
         {
@@ -323,13 +347,13 @@ public class EntityPuma extends EntityTameable
         {
             return false;
         }
-        else if (!(otherAnimal instanceof EntityPuma))
+        else if (!(otherAnimal instanceof EntityPampasFox))
         {
             return false;
         }
         else
         {
-            EntityPuma entityocelot = (EntityPuma)otherAnimal;
+            EntityPampasFox entityocelot = (EntityPampasFox)otherAnimal;
 
             if (!entityocelot.isTamed())
             {
@@ -429,7 +453,7 @@ public class EntityPuma extends EntityTameable
         {
             for (int i = 0; i < 2; ++i)
             {
-                EntityPuma entityocelot = new EntityPuma(this.world);
+                EntityPampasFox entityocelot = new EntityPampasFox(this.world);
                 entityocelot.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
                 entityocelot.setGrowingAge(-24000);
                 this.world.spawnEntity(entityocelot);
@@ -442,5 +466,230 @@ public class EntityPuma extends EntityTameable
 	public float getGallopTicks() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
+	{
+	    private final Predicate<Entity> canBeSeenSelector;
+	    /** The entity we are attached to */
+	    protected EntityCreature entity;
+	    private final double farSpeed;
+	    private final double nearSpeed;
+	    protected T closestLivingEntity;
+	    private final float avoidDistance;
+	    /** The PathEntity of our entity */
+	    private Path entityPathEntity;
+	    /** The PathNavigate of our entity */
+	    private final PathNavigate entityPathNavigate;
+	    /** Class of entity this behavior seeks to avoid */
+	    private final Class<T> classToAvoid;
+	    private final Predicate <? super T > avoidTargetSelector;
+
+	    public EntityAIAvoidEntity(EntityCreature entityIn, Class<T> classToAvoidIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn)
+	    {
+	        this(entityIn, classToAvoidIn, Predicates.alwaysTrue(), avoidDistanceIn, farSpeedIn, nearSpeedIn);
+	    }
+
+	    public EntityAIAvoidEntity(EntityCreature entityIn, Class<T> classToAvoidIn, Predicate <? super T > avoidTargetSelectorIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn)
+	    {
+	        this.canBeSeenSelector = new Predicate<Entity>()
+	        {
+	            public boolean apply(@Nullable Entity p_apply_1_)
+	            {
+	                return p_apply_1_.isEntityAlive() && EntityAIAvoidEntity.this.entity.getEntitySenses().canSee(p_apply_1_) && !EntityAIAvoidEntity.this.entity.isOnSameTeam(p_apply_1_);
+	            }
+	        };
+	        this.entity = entityIn;
+	        this.classToAvoid = classToAvoidIn;
+	        this.avoidTargetSelector = avoidTargetSelectorIn;
+	        this.avoidDistance = avoidDistanceIn;
+	        this.farSpeed = farSpeedIn;
+	        this.nearSpeed = nearSpeedIn;
+	        this.entityPathNavigate = entityIn.getNavigator();
+	        this.setMutexBits(1);
+	    }
+
+	    /**
+	     * Returns whether the EntityAIBase should begin execution.
+	     */
+	    public boolean shouldExecute()
+	    {
+	        List<T> list = this.entity.world.<T>getEntitiesWithinAABB(this.classToAvoid, this.entity.getEntityBoundingBox().grow((double)this.avoidDistance, 3.0D, (double)this.avoidDistance), Predicates.and(EntitySelectors.CAN_AI_TARGET, this.canBeSeenSelector, this.avoidTargetSelector));
+
+	        if (list.isEmpty())
+	        {
+	            return false;
+	        }
+	        else
+	        {
+	            this.closestLivingEntity = list.get(0);
+	            Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, new Vec3d(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
+
+	            if (vec3d == null)
+	            {
+	                return false;
+	            }
+	            else if (this.closestLivingEntity.getDistanceSq(vec3d.x, vec3d.y, vec3d.z) < this.closestLivingEntity.getDistanceSqToEntity(this.entity))
+	            {
+	                return false;
+	            }
+	            else
+	            {
+	                this.entityPathEntity = this.entityPathNavigate.getPathToXYZ(vec3d.x, vec3d.y, vec3d.z);
+	                return this.entityPathEntity != null;
+	            }
+	        }
+	    }
+
+	    /**
+	     * Returns whether an in-progress EntityAIBase should continue executing
+	     */
+	    public boolean shouldContinueExecuting()
+	    {
+	        return !this.entityPathNavigate.noPath();
+	    }
+
+	    /**
+	     * Execute a one shot task or start executing a continuous task
+	     */
+	    public void startExecuting()
+	    {
+	        this.entityPathNavigate.setPath(this.entityPathEntity, this.farSpeed);
+	    }
+
+	    /**
+	     * Reset the task's internal state. Called when this task is interrupted by another one
+	     */
+	    public void resetTask()
+	    {
+	        this.closestLivingEntity = null;
+	    }
+
+	    /**
+	     * Keep ticking a continuous task that has already been started
+	     */
+	    public void updateTask()
+	    {
+	        if (this.entity.getDistanceSqToEntity(this.closestLivingEntity) < 49.0D)
+	        {
+	            this.entity.getNavigator().setSpeed(this.nearSpeed);
+	        }
+	        else
+	        {
+	            this.entity.getNavigator().setSpeed(this.farSpeed);
+	        }
+	    }
+	}
+	public class EntityAIPanic extends EntityAIBase
+	{
+	    protected final EntityCreature creature;
+	    protected double speed;
+	    protected double randPosX;
+	    protected double randPosY;
+	    protected double randPosZ;
+
+	    public EntityAIPanic(EntityCreature creature, double speedIn)
+	    {
+	        this.creature = creature;
+	        this.speed = speedIn;
+	        this.setMutexBits(1);
+	    }
+
+	    /**
+	     * Returns whether the EntityAIBase should begin execution.
+	     */
+	    public boolean shouldExecute()
+	    {
+	        if (this.creature.getRevengeTarget() == null && !this.creature.isBurning())
+	        {
+	            return false;
+	        }
+	        else
+	        {
+	            if (this.creature.isBurning())
+	            {
+	                BlockPos blockpos = this.getRandPos(this.creature.world, this.creature, 5, 4);
+
+	                if (blockpos != null)
+	                {
+	                    this.randPosX = (double)blockpos.getX();
+	                    this.randPosY = (double)blockpos.getY();
+	                    this.randPosZ = (double)blockpos.getZ();
+	                    return true;
+	                }
+	            }
+
+	            return this.findRandomPosition();
+	        }
+	    }
+
+	    protected boolean findRandomPosition()
+	    {
+	        Vec3d vec3d = RandomPositionGenerator.findRandomTarget(this.creature, 5, 4);
+
+	        if (vec3d == null)
+	        {
+	            return false;
+	        }
+	        else
+	        {
+	            this.randPosX = vec3d.x;
+	            this.randPosY = vec3d.y;
+	            this.randPosZ = vec3d.z;
+	            return true;
+	        }
+	    }
+
+	    /**
+	     * Execute a one shot task or start executing a continuous task
+	     */
+	    public void startExecuting()
+	    {
+	        this.creature.getNavigator().tryMoveToXYZ(this.randPosX, this.randPosY, this.randPosZ, this.speed);
+	    }
+
+	    /**
+	     * Returns whether an in-progress EntityAIBase should continue executing
+	     */
+	    public boolean shouldContinueExecuting()
+	    {
+	        return !this.creature.getNavigator().noPath();
+	    }
+
+	    @Nullable
+	    private BlockPos getRandPos(World worldIn, Entity entityIn, int horizontalRange, int verticalRange)
+	    {
+	        BlockPos blockpos = new BlockPos(entityIn);
+	        int i = blockpos.getX();
+	        int j = blockpos.getY();
+	        int k = blockpos.getZ();
+	        float f = (float)(horizontalRange * horizontalRange * verticalRange * 2);
+	        BlockPos blockpos1 = null;
+	        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+
+	        for (int l = i - horizontalRange; l <= i + horizontalRange; ++l)
+	        {
+	            for (int i1 = j - verticalRange; i1 <= j + verticalRange; ++i1)
+	            {
+	                for (int j1 = k - horizontalRange; j1 <= k + horizontalRange; ++j1)
+	                {
+	                    blockpos$mutableblockpos.setPos(l, i1, j1);
+	                    IBlockState iblockstate = worldIn.getBlockState(blockpos$mutableblockpos);
+
+	                    if (iblockstate.getMaterial() == Material.WATER)
+	                    {
+	                        float f1 = (float)((l - i) * (l - i) + (i1 - j) * (i1 - j) + (j1 - k) * (j1 - k));
+
+	                        if (f1 < f)
+	                        {
+	                            f = f1;
+	                            blockpos1 = new BlockPos(blockpos$mutableblockpos);
+	                        }
+	                    }
+	                }
+	            }
+	        }
+
+	        return blockpos1;
+	    }
 	}
 }
