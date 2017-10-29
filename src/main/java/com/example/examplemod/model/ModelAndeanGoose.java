@@ -189,9 +189,11 @@ public class ModelAndeanGoose extends ModelBase {
         this.LEFTleg.addChild(this.LEFTtoe);
     }
 
-    @Override
+    
+
+	@Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-    	float scaleFactor = 0.5F;
+    	float scaleFactor = 0.8F;
         GL11.glTranslatef(0F, 1.5F-1.5F*scaleFactor, 0F); 
         GL11.glScalef(scaleFactor, scaleFactor, scaleFactor);
         GL11.glPushMatrix();
@@ -209,10 +211,16 @@ public class ModelAndeanGoose extends ModelBase {
     }
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
     {
+    	
         float f6 = (180F / (float)Math.PI);
         this.LEFTThigh.rotateAngleX = MathHelper.cos(limbSwing * 0.7777F) * 1.4F * limbSwingAmount;
         this.RightThigh.rotateAngleX = MathHelper.cos(limbSwing * 0.7777F + (float)Math.PI) * 1.4F * limbSwingAmount;
         
         
     }
+
+	public boolean isChild() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

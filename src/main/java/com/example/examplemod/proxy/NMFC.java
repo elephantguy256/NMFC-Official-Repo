@@ -19,6 +19,8 @@ import tabs.EUROPETab;
 import tabs.MEATTab;
 import tabs.NMAFCTab;
 import tabs.PETSTab;
+import world.biome.RegistryHandler;
+
 
 @Mod(modid = NMFC.MODID, name = NMFC.MODNAME, version = NMFC.MODVERSION)
 public class NMFC 
@@ -45,6 +47,7 @@ public class NMFC
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		RegistryHandler.preInitRegistries();
 		System.out.println(NMFC.MODID + ":preInit");
 		ModItems.init();
 		ModBlocks.init();
@@ -53,6 +56,7 @@ public class NMFC
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		RegistryHandler.preInitRegistries();
 		System.out.println(NMFC.MODID + ":init");
 		ModRecipes.init();
 		proxy.registerRenders();

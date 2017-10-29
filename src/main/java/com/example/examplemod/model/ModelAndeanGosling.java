@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
  * Andean Goose Gosling - Oceanssss
  * Created using Tabula 5.1.0
  */
-public class ModelAndeanGoosling extends ModelBase {
+public class ModelAndeanGosling extends ModelBase {
     public ModelRenderer Body;
     public ModelRenderer Neck;
     public ModelRenderer Butt;
@@ -27,7 +27,7 @@ public class ModelAndeanGoosling extends ModelBase {
     public ModelRenderer LEFTleg;
     public ModelRenderer LEFTtoe;
 
-    public ModelAndeanGoosling() {
+    public ModelAndeanGosling() {
         this.textureWidth = 256;
         this.textureHeight = 128;
         this.shape65 = new ModelRenderer(this, 18, 34);

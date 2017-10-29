@@ -3,7 +3,7 @@ package com.example.examplemod.render;
 import com.example.examplemod.entity.EntityAndeanGoose;
 import com.example.examplemod.entity.EntityGuineaPig;
 import com.example.examplemod.model.ModelAndeanGoose;
-import com.example.examplemod.model.ModelAndeanGoosling;
+import com.example.examplemod.model.ModelAndeanGosling;
 
 import net.minecraft.client.model.ModelChicken;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,8 +19,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderAndeanGoose extends RenderLiving<EntityAndeanGoose>
 {
     private static final ResourceLocation GOOSE_TEXTURES = new ResourceLocation("de:textures/entity/preyanimal/andeangoose.png");
+    private static final ResourceLocation GOSLING_TEXTURES = new ResourceLocation("de:textures/entity/preyanimal/andeangosling.png");
 
-    public RenderAndeanGoose(RenderManager p_i47211_1_)
+    public RenderAndeanGoose(RenderManager p_i47211_1_, ModelAndeanGoose modelAndeanGoose, float f)
     {
         super(p_i47211_1_, new ModelAndeanGoose(), 0.3F);
     }
@@ -37,7 +38,7 @@ public class RenderAndeanGoose extends RenderLiving<EntityAndeanGoose>
     /**
      * Defines what float the third param in setRotationAngles of ModelBase is
      */
-    protected float handleRotationFloat(EntityChicken livingBase, float partialTicks)
+    protected float handleRotationFloat(EntityAndeanGoose livingBase, float partialTicks)
     {
         float f = livingBase.oFlap + (livingBase.wingRotation - livingBase.oFlap) * partialTicks;
         float f1 = livingBase.oFlapSpeed + (livingBase.destPos - livingBase.oFlapSpeed) * partialTicks;

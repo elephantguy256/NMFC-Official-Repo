@@ -9,6 +9,7 @@ import com.example.examplemod.entity.EntityPuma;
 import com.example.examplemod.entity.EntityVicuna;
 import com.example.examplemod.model.ModelAlpaca;
 import com.example.examplemod.model.ModelAndeanGoose;
+import com.example.examplemod.model.ModelAndeanGosling;
 import com.example.examplemod.model.ModelChinchilla;
 import com.example.examplemod.model.ModelGuineaPig;
 import com.example.examplemod.model.ModelPampasFox;
@@ -70,6 +71,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityAlpaca.class, new RenderAlpaca(renderManager, new ModelAlpaca(), 0.7F)); 
         RenderingRegistry.registerEntityRenderingHandler(EntityPampasFox.class, new RenderPampasFox(renderManager, new ModelPampasFox(), 0.7F)); 
         RenderingRegistry.registerEntityRenderingHandler(EntityAndeanGoose.class, new RenderAndeanGoose(renderManager, new ModelAndeanGoose(), 0.7F)); 
+        
         
         }
 }

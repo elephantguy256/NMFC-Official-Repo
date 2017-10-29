@@ -1,37 +1,33 @@
 package init;
 
-import net.minecraft.init.Bootstrap;
-import net.minecraft.util.ResourceLocation;
+import org.lwjgl.Sys;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.BiomeManager.BiomeEntry;
+import net.minecraftforge.common.BiomeManager.BiomeType;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import world.biome.BiomePatagonia;
 
-public abstract class ModBiomes
+public class ModBiomes 
 {
-    public static final Biome PATAGONIA;
-    
-    private static Biome getRegisteredBiome(String id)
-    {
-        Biome biome = Biome.REGISTRY.getObject(new ResourceLocation(id));
-
-        if (biome == null)
-        {
-            throw new IllegalStateException("Invalid Biome requested: " + id);
-        }
-        else
-        {
-            return biome;
-        }
-    }
-
-    static
-    {
-        if (!Bootstrap.isRegistered())
-        {
-            throw new RuntimeException("Accessed Biomes before Bootstrap!");
-        }
-        else
-        {
-            PATAGONIA = getRegisteredBiome("patagonia");
-            
-        }
-    }
+	public static final Biome PATAGONIA = new BiomePatagonia();
+	
+	public static void registerBiomes()
+	{
+		initBiome(PATAGONIA, "Patagonia", BiomeType.DESERT, Type.SPARSE, Type.PLAINS, Type.MOUNTAIN, Type.RIVER );
+	}
+	
+	private static Biome initBiome(Biome biome, String name, BiomeType biomeType, Type... types)
+	{
+		biome.setRegistryName(name);
+		ForgeRegistries.BIOMES.register(biome);
+		System.out.println("Biome Registered");
+		BiomeDictionary.addTypes(biome, types);
+		BiomeManager.addBiome(biomeType, new BiomeEntry(biome, 10));
+		BiomeManager.addSpawnBiome(biome);
+		System.out.println("Biome Added");
+		return biome;
+	}
 }

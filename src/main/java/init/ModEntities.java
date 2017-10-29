@@ -27,7 +27,8 @@ public class ModEntities {
         EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de3"), EntityVicuna.class, "Vicuna", id++, NMFC.instance, 64, 3, true, 0xCD853F, 0xdfc49f);       
         EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de4"), EntityAlpaca.class, "Alpaca", id++, NMFC.instance, 64, 3, true, 0xfffff8, 0xffffff); 
         EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de6"), EntityPampasFox.class, "Pampas Fox", id++, NMFC.instance, 64, 3, true, 0xc1af7e, 0xf4ecd6 ); 
-        EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de7"), EntityAndeanGoose.class, "Andean Goose", id++, NMFC.instance, 64, 3, true, 0x141110, 0xe0d6d1 ); 
+        EntityRegistry.registerModEntity(new ResourceLocation(NMFC.MODID, "de7"), EntityAndeanGoose.class, "Andean Goose", id++, NMFC.instance, 64, 3, true, 0xe0d6d1, 0x141110 ); 
+       
        
         
     }
