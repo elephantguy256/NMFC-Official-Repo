@@ -16,7 +16,7 @@ public class ModBiomes
 	
 	public static void registerBiomes()
 	{
-		initBiome(PATAGONIA, "Patagonia", BiomeType.DESERT, Type.SPARSE, Type.PLAINS, Type.MOUNTAIN, Type.RIVER );
+		initBiome(PATAGONIA, "Patagonia", BiomeType.COOL, Type.SPARSE,Type.PLAINS);
 	}
 	
 	private static Biome initBiome(Biome biome, String name, BiomeType biomeType, Type... types)

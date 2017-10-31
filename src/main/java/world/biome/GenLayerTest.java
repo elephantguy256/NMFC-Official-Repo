@@ -27,17 +27,17 @@ public class GenLayerTest extends GenLayer
             if (biomesToAdd != null) biomes[idx].addAll(biomesToAdd);
         }
 
-        int desertIdx = net.minecraftforge.common.BiomeManager.BiomeType.DESERT.ordinal();
+        int plainsIdx = net.minecraftforge.common.BiomeManager.BiomeType.DESERT.ordinal();
 
-        biomes[desertIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(Biomes.DESERT, 30));
-        biomes[desertIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(ModBiomes.PATAGONIA, 30));
+       
+        biomes[plainsIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(ModBiomes.PATAGONIA, 30));
         
 
         if (p_i45560_4_ == WorldType.FLAT)
         {
-            biomes[desertIdx].clear();
-            biomes[desertIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(Biomes.DESERT, 10));
-            biomes[desertIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(ModBiomes.PATAGONIA, 10));
+            biomes[plainsIdx].clear();
+           
+            biomes[plainsIdx].add(new net.minecraftforge.common.BiomeManager.BiomeEntry(ModBiomes.PATAGONIA, 10));
             this.settings = null;
         }
         else

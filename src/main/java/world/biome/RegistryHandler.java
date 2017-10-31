@@ -1,6 +1,8 @@
 package world.biome;
 
 import init.ModBiomes;
+import init.ModBlocks;
+import init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.world.WorldType;
@@ -15,12 +17,13 @@ public class RegistryHandler
 	@SubscribeEvent
 	public static void onItemRegister(RegistryEvent.Register<Item> event)
 	{
-	}
+		ModItems.init();
+		}
 	
 	@SubscribeEvent
 	public static void onBlockRegister(RegistryEvent.Register<Block> event)
 	{
-			init.ModBlocks.init();
+		ModBlocks.init();
 	}
 	
 	@SubscribeEvent
