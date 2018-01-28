@@ -140,6 +140,7 @@ public class EntityAlpaca extends AbstractChestHorse implements IRangedAttackMob
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
     }
 
     protected void entityInit()
