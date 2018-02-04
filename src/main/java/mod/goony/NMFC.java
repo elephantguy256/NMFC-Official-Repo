@@ -13,6 +13,7 @@ import mod.goony.tabs.EUROPETab;
 import mod.goony.tabs.MEATTab;
 import mod.goony.tabs.NMAFCTab;
 import mod.goony.tabs.PETSTab;
+import mod.goony.world.biome.WorldGeneratorNMFAFCB;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = NMFC.MODID, name = NMFC.MODNAME, version = NMFC.MODVERSION)
 public class NMFC 
@@ -61,7 +63,7 @@ public class NMFC
 		System.out.println(NMFC.MODID + ":init");
 		ModRecipes.init();
 		proxy.registerRenders();
-		
+	
 	}
 	
 	@EventHandler

@@ -64,6 +64,7 @@ public class EntityBumbleBeeToad extends EntityAnimal
     private boolean wasOnGround;
     private int currentMoveTypeDuration;
     private int carrotTicks;
+	private boolean isCollidedHorizontally;
 
     public EntityBumbleBeeToad(World worldIn)
     {
@@ -202,7 +203,7 @@ public class EntityBumbleBeeToad extends EntityAnimal
             {
                 EntityLivingBase entitylivingbase = this.getAttackTarget();
 
-                if (entitylivingbase != null && this.getDistanceSqToEntity(entitylivingbase) < 16.0D)
+                if (entitylivingbase != null && this.getDistance(entitylivingbase) < 16.0D)
                 {
                     this.calculateRotationYaw(entitylivingbase.posX, entitylivingbase.posZ);
                     this.moveHelper.setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, this.moveHelper.getSpeed());

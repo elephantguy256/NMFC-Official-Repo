@@ -233,7 +233,7 @@ public class EntityChinchilla extends EntityTameable
                 this.aiSit.setSitting(!this.isSitting());
             }
         }
-        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == ModItems.gpigpellets && player.getDistanceSqToEntity(this) < 9.0D)
+        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == ModItems.gpigpellets && player.getDistance(this) < 9.0D)
         {
             if (!player.capabilities.isCreativeMode)
             {

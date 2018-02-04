@@ -233,7 +233,7 @@ public class EntityPatagonianMara extends EntityTameable
                 this.aiSit.setSitting(!this.isSitting());
             }
         }
-        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == Items.FISH && player.getDistanceSqToEntity(this) < 9.0D)
+        else if ((this.aiTempt == null || this.aiTempt.isRunning()) && itemstack.getItem() == Items.FISH && player.getDistance(this) < 9.0D)
         {
             if (!player.capabilities.isCreativeMode)
             {
@@ -480,7 +480,7 @@ public class EntityPatagonianMara extends EntityTameable
 	            {
 	                return false;
 	            }
-	            else if (this.closestLivingEntity.getDistanceSq(vec3d.x, vec3d.y, vec3d.z) < this.closestLivingEntity.getDistanceSqToEntity(this.entity))
+	            else if (this.closestLivingEntity.getDistanceSq(vec3d.x, vec3d.y, vec3d.z) < this.closestLivingEntity.getDistance(this.entity))
 	            {
 	                return false;
 	            }
@@ -521,7 +521,7 @@ public class EntityPatagonianMara extends EntityTameable
 	     */
 	    public void updateTask()
 	    {
-	        if (this.entity.getDistanceSqToEntity(this.closestLivingEntity) < 49.0D)
+	        if (this.entity.getDistance(this.closestLivingEntity) < 49.0D)
 	        {
 	            this.entity.getNavigator().setSpeed(this.nearSpeed);
 	        }

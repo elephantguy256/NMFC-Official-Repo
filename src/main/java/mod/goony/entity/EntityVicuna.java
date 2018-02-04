@@ -1,10 +1,22 @@
 package mod.goony.entity;
 
+import java.util.List;
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTallGrass;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.pattern.BlockStateMatcher;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -13,57 +25,28 @@ import net.minecraft.entity.ai.EntityAIEatGrass;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import java.util.List;
-import javax.annotation.Nullable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.math.Vec3d;
-import javax.annotation.Nullable;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.state.pattern.BlockStateMatcher;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.world.World;
 
 public class EntityVicuna extends EntityAnimal
 {
@@ -360,7 +343,7 @@ public class EntityAIMate extends EntityAIBase
         this.animal.getNavigator().tryMoveToEntityLiving(this.targetMate, this.moveSpeed);
         ++this.spawnBabyDelay;
 
-        if (this.spawnBabyDelay >= 60 && this.animal.getDistanceSqToEntity(this.targetMate) < 9.0D)
+        if (this.spawnBabyDelay >= 60 && this.animal.getDistance(this.targetMate) < 9.0D)
         {
             this.spawnBaby();
         }
@@ -378,10 +361,10 @@ public class EntityAIMate extends EntityAIBase
 
         for (EntityAnimal entityanimal1 : list)
         {
-            if (this.animal.canMateWith(entityanimal1) && this.animal.getDistanceSqToEntity(entityanimal1) < d0)
+            if (this.animal.canMateWith(entityanimal1) && this.animal.getDistance(entityanimal1) < d0)
             {
                 entityanimal = entityanimal1;
-                d0 = this.animal.getDistanceSqToEntity(entityanimal1);
+                d0 = this.animal.getDistance(entityanimal1);
             }
         }
 
@@ -591,7 +574,7 @@ public class EntityAIWander extends EntityAIBase
         {
             this.eatingGrassTimer = 40;
             this.entityWorld.setEntityState(this.grassEaterEntity, (byte)10);
-            this.grassEaterEntity.getNavigator().clearPathEntity();
+            this.grassEaterEntity.getNavigator().clearPath();
         }
 
         /**
