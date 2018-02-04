@@ -41,3 +41,20 @@ public class BiomePatagonia extends Biome
 			
 				
 	}
+	
+
+	@Override
+	public void decorate(World worldIn, Random rand, BlockPos pos) {
+		   int i;
+	        int j;
+	        int k;
+			super.decorate(worldIn, rand, pos);
+	        for (i = 0; i < 2; ++i)
+	        {
+	            j = rand.nextInt(16) + 1;
+	            k = rand.nextInt(16) + 1;
+	            WorldGenFlowers flowers = new WorldGenFlowers(5);
+	            flowers.generate(worldIn, rand, worldIn.getHorizon());
+	        }
+	}
+	
